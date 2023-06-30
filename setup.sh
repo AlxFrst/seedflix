@@ -6,7 +6,12 @@ sudo apt install curl software-properties-common -y
 echo "Installation de Docker 🐳 et Docker Compose 🐙"
 sudo apt install ca-certificates curl gnupg -y
 sudo install -m 0755 -d /etc/apt/keyrings 
-sudo curl -fsSL --force https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+# Supprimer le fichier existant
+sudo rm /etc/apt/keyrings/docker.gpg
+
+# Télécharger le fichier Docker GPG
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update -y
