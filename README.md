@@ -109,6 +109,25 @@ PATH_MEDIA=/data
 docker-compose up -d
 ```
 
+Félicitations ! Vous avez maintenant installé et configuré Seedflix sur votre système. Vous pouvez accéder aux différents services en utilisant les ports et les URLs fournis. Profitez de votre seedbox et de votre mediacenter ! 🎉
+
+## Accès aux services 📺
+- **Jellyfin** : http://localhost:8096
+- **Jackett** : http://localhost:9117
+- **Sonarr** : http://localhost:8989
+- **Radarr** : http://localhost:7878
+- **qBittorrent** : http://localhost:8080
+- **FlareSolverr** : http://localhost:8191
+- **Jellyseerr** : http://localhost:8192
+
+
+## Conseils 📝
+- Commencez par ajouter vos indexeurs dans Jackett.
+- Mettez en place flaresolverr pour résoudre les défis Cloudflare dans Jackett.
+- Ajoutez vos indexeurs dans Sonarr et Radarr et configurez vos profils de téléchargement.
+- Ajoutez qBittorrent dans Sonarr et Radarr et n'oubliez pas le tips de la ligne 35.
+
+
 
 
 
