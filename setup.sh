@@ -22,7 +22,7 @@ echo "Création de l'utilisateur media 🧑‍🌾"
 read -p 'Utilisateur: ' uservar
 # Demande du mot de passe
 read -sp 'Password: ' passvar
-sudo useradd -m -p $(mkpasswd -m sha-512 $passvar) $uservar
+sudo useradd -m -p $(openssl passwd -1  $passvar) $uservar
 sudo usermod -aG docker $uservar
 
 echo "Déplacement du répertoire Seedflix vers le répertoire home de l'utilisateur"
