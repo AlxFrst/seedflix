@@ -32,10 +32,6 @@ Avant de commencer, assurez-vous de disposer des éléments suivants :
   - Processeur : 2 à 4 cœurs.
   - Mémoire vive (RAM) : Minimum 8 Go, mais il est recommandé d'avoir au moins 16 Go pour des performances optimales.
 
-Nous vous conseillons également de configurer qBittorrent comme suit pour une expérience optimale :
-- Assurez-vous que dans le "Répertoire de destination par défaut :", le chemin soit défini sur "/data/downloads".
-- Dans les paramètres de Bittorrent, cochez la case "Lorsque le ratio est atteint" et mettez 0 à côté. Ensuite, sélectionnez "mettre en pause le torrent" pour vous assurer que les fichiers se suppriment une fois terminés et sont déplacés dans le bon dossier.
-
 ## Tutoriel 📖
 ### Installation de Docker et Docker Compose 
 1. Les paquets curl et software-properties-common doivent être installés sur votre système
@@ -125,7 +121,9 @@ Félicitations ! Vous avez maintenant installé et configuré Seedflix sur votre
 - Commencez par ajouter vos indexeurs dans Jackett.
 - Mettez en place flaresolverr pour résoudre les défis Cloudflare dans Jackett.
 - Ajoutez vos indexeurs dans Sonarr et Radarr et configurez vos profils de téléchargement.
-- Ajoutez qBittorrent dans Sonarr et Radarr et n'oubliez pas le tips de la ligne 35.
+- Ajoutez qBittorrent dans Sonarr et Radarr
+- Assurez-vous que dans le "Répertoire de destination par défaut :", le chemin soit défini sur "/data/downloads".
+- Dans les paramètres de Bittorrent, cochez la case "Lorsque le ratio est atteint" et mettez 0 à côté. Ensuite, sélectionnez "mettre en pause le torrent" pour vous assurer que les fichiers se suppriment une fois terminés et sont déplacés dans le bon dossier.
 
 
 
