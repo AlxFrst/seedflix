@@ -68,4 +68,4 @@ fi
 
 echo "Installation terminée !"
 echo "Lancement de Seedflix 🌱🎬"
-sudo -u fg docker-compose -f /home/fg/seedflix/docker-compose.yml up -d
+sudo -u $username docker-compose -f /home/$username/seedflix/docker-compose.yml up -d
