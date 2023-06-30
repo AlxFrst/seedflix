@@ -4,13 +4,13 @@ Seedflix est un référentiel Docker qui combine une seedbox et un mediacenter, 
 
 ## Fonctionnalités 🚀
 
-- **Jellyfin** : Un puissant serveur multimédia vous permettant de diffuser votre collection de médias sur différents appareils. 🎥📺🎵
-- **Jackett** : Un agrégateur d'indexeurs de torrents, vous permettant de rechercher des torrents provenant de plusieurs sources. 🔍🔥
-- **Sonarr** : Un gestionnaire intelligent de séries télévisées, vous permettant de télécharger et d'organiser automatiquement vos séries préférées. 📺📥📂
-- **Radarr** : Un compagnon de Sonarr, conçu pour gérer et télécharger des films. 🎬📥📂
-- **qBittorrent** : Un client BitTorrent populaire pour le téléchargement de torrents. ⚡🌧️
-- **FlareSolverr** : Un outil pour résoudre les défis Cloudflare rencontrés lors du scraping de sites web. 🌩️🔓
-- **Jellyseerr** : Un service permettant de convertir des torrents en liens magnet. 🧲⚙️
+- **Jellyfin** : Un puissant serveur multimédia vous permettant de diffuser votre collection de médias sur différents appareils. 
+- **Jackett** : Un agrégateur d'indexeurs de torrents, vous permettant de rechercher des torrents provenant de plusieurs sources. 
+- **Sonarr** : Un gestionnaire intelligent de séries télévisées, vous permettant de télécharger et d'organiser automatiquement vos séries préférées. 
+- **Radarr** : Un compagnon de Sonarr, conçu pour gérer et télécharger des films. 
+- **qBittorrent** : Un client BitTorrent populaire pour le téléchargement de torrents.
+- **FlareSolverr** : Un outil pour résoudre les défis Cloudflare rencontrés lors du scraping de sites web.
+- **Jellyseerr** : Un service permettant de convertir des torrents en liens magnet. 
 
 ## Prérequis ⚙️
 
@@ -37,7 +37,7 @@ Nous vous conseillons également de configurer qBittorrent comme suit pour une e
 - Dans les paramètres de Bittorrent, cochez la case "Lorsque le ratio est atteint" et mettez 0 à côté. Ensuite, sélectionnez "mettre en pause le torrent" pour vous assurer que les fichiers se suppriment une fois terminés et sont déplacés dans le bon dossier.
 
 ## Tutoriel 📖
-### Installation de Docker et Docker Compose
+### Installation de Docker et Docker Compose 
 1. Les paquets curl et software-properties-common doivent être installés sur votre système
 ```
 sudo apt install curl software-properties-common
