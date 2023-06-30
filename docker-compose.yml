@@ -91,7 +91,7 @@ services:
       - /home/media/jellyseerr/config:/app/config
     restart: unless-stopped
   flaresolverr:
-    image: fallenbagel/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     environment:
       - LOG_LEVEL=debug
