@@ -1,4 +1,4 @@
-version: '2'
+version: '3.7'
 services:
   jellyfin:
     image: jellyfin/jellyfin
@@ -79,17 +79,6 @@ services:
       - 6881:6881/udp
       - 8080:8080
     restart: unless-stopped
-  flaresolverr:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
-    environment:
-      - LOG_LEVEL=info
-      - LOG_HTML=false
-      - CAPTCHA_SOLVER=none
-      - TZ=Europe/London
-    ports:
-      - 8191:8191
-    restart: unless-stopped
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
@@ -100,4 +89,15 @@ services:
       - 5055:5055
     volumes:
       - /home/media/jellyseerr/config:/app/config
+    restart: unless-stopped
+  flaresolverr:
+    image: fallenbagel/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Europe/Paris
+    ports:
+      - 8191:8191
+    volumes:
+      - /home/media/flaresolverr/config:/app/config
     restart: unless-stopped
