@@ -89,6 +89,15 @@ echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml up -d
 
+# if autosetup is true then run the nodejs script
+if [ "$autosetup" = true ] ; then
+    echo "🔍 Lancement de l'installation automatique de Seedflix..."
+    else
+    echo "Pas d'installation automatique de Seedflix."
+fi
+
+echo "🎉 Installation terminée !"
+echo "Vous pouvez accéder à vos applications aux adresses suivante:"
 echo "🔍 Les applications"
 echo "Jellyfin http://localhost:8096"
 echo "Radarr http://localhost:7878"
@@ -96,10 +105,3 @@ echo "Sonarr http://localhost:8989"
 echo "qBittorrent http://localhost:8080"
 echo "FlareSolverr http://localhost:8191"
 echo "JellySeerr http://localhost:5055"
-
-if [ autosetup == true ]; then
-# lancer le script js puppeteer
-echo "🌱🎬 Lancement de l'installation automatique des applications..."
-sudo apt install nodejs npm -y
-sudo -u $username node /home/$username/seedflix/autosetup/index.js
-else
