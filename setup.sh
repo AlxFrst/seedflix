@@ -10,6 +10,7 @@ echo "███████ ███████ ███████ ██�
 username="#username#"
 password="#userpassword#"
 path="#path#"
+autosetup="#autosetup#"
 
 echo "🔍 Vérification de l'existence de Docker..."
 if ! command -v docker &> /dev/null; then
@@ -85,3 +86,19 @@ fi
 echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker-compose -f /home/$username/seedflix/docker-compose.yml up -d
+
+if [ autosetup == "#autosetup#" ]; then
+    read -p "Voulez vous qu'on vous lance l'installation automatique des applications ? (y/n): " autosetup
+    if [ $autosetup == "y" ]; then
+    autosetup= true
+    else
+    autosetup= false
+    fi
+fi
+
+if [ autosetup == true ]; then
+# lancer le script js puppeteer
+echo "🌱🎬 Lancement de l'installation automatique des applications..."
+sudo apt install nodejs npm -y
+sudo -u $username node /home/$username/seedflix/autosetup/index.js
+fi
