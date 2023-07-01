@@ -14,6 +14,11 @@ Seedflix est un référentiel Docker qui combine une seedbox et un mediacenter, 
 
 ## Prérequis ⚙️
 
+Installation Rapide
+```
+git clone https://github.com/AlxFrst/seedflix.git && cd seedflix && chmod +x setup.sh && ./setup.sh
+```
+
 Avant de commencer, assurez-vous de disposer des éléments suivants :
 
 - Une machine exécutant Ubuntu 20.04 (ou une version similaire) :
