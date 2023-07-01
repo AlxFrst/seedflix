@@ -87,6 +87,7 @@ echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker-compose -f /home/$username/seedflix/docker-compose.yml up -d
 
+
 if [ autosetup == "#autosetup#" ]; then
     read -p "Voulez vous qu'on vous lance l'installation automatique des applications ? (y/n): " autosetup
     if [ $autosetup == "y" ]; then
@@ -95,6 +96,14 @@ if [ autosetup == "#autosetup#" ]; then
     autosetup= false
     fi
 fi
+
+echo "🔍 Les applications"
+echo "Jellyfin http://localhost:8096"
+echo "Radarr http://localhost:7878"
+echo "Sonarr http://localhost:8989"
+echo "qBittorrent http://localhost:8080"
+echo "FlareSolverr http://localhost:8191"
+echo "JellySeerr http://localhost:5055"
 
 if [ autosetup == true ]; then
 # lancer le script js puppeteer
