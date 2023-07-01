@@ -40,8 +40,8 @@ fi
 echo "🌱🎬 Installation de Seedflix en cours..."
 sudo apt install curl software-properties-common -y
 
-echo "💡 Création d'un utilisateur pour Seedflix. Veuillez fournir un nom d'utilisateur et un mot de passe."
 if [ username == "#username#" ]; then
+echo "💡 Création d'un utilisateur pour Seedflix. Veuillez fournir un nom d'utilisateur et un mot de passe."
 read -p "Nom d'utilisateur: " username
 fi
 if [ password == "#userpassword#" ]; then
@@ -52,8 +52,8 @@ sudo usermod -aG docker $username
 echo "✅ Utilisateur $username créé avec succès !"
 
 echo "💡 Création des dossiers nécessaires à Seedflix."
-echo "Veuillez fournir le chemin absolu du dossier de téléchargement (ex: /data ou /media):"
 if [ path == "#path#" ]; then
+echo "Veuillez fournir le chemin absolu du dossier de téléchargement (ex: /data ou /media):"
 read -p "Chemin absolu: " path
 fi
 sudo mkdir -p $path/torrents $path/movies $path/tv $path/downloads
