@@ -41,15 +41,22 @@ echo "🌱🎬 Installation de Seedflix en cours..."
 sudo apt install curl software-properties-common -y
 
 echo "💡 Création d'un utilisateur pour Seedflix. Veuillez fournir un nom d'utilisateur et un mot de passe."
-read -p "Nom d'utilisateur: " username
-read -p "Mot de passe: " password
+if [ "$username" = "#username#" ]; then
+    read -p "Nom d'utilisateur: " username
+fi
+if [ "$password" = "#userpassword#" ]; then
+    read -p "Mot de passe: " password
+fi
+
 sudo useradd -m -p $(openssl passwd -1 $password) $username
 sudo usermod -aG docker $username
 echo "✅ Utilisateur $username créé avec succès !"
 
 echo "💡 Création des dossiers nécessaires à Seedflix."
 echo "Veuillez fournir le chemin absolu du dossier de téléchargement (ex: /data ou /media):"
-read -p "Chemin absolu: " path
+if [ "$path" = "#path#" ]; then
+    read -p "Chemin absolu: " path
+fi
 
 sudo mkdir -p $path/torrents $path/movies $path/tv $path/downloads
 sudo chown -R $username:$username $path/torrents $path/movies $path/tv $path/downloads
@@ -96,4 +103,3 @@ echo "🌱🎬 Lancement de l'installation automatique des applications..."
 sudo apt install nodejs npm -y
 sudo -u $username node /home/$username/seedflix/autosetup/index.js
 else
-echo "PAS D'AUTOSETUP"
