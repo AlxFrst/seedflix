@@ -10,7 +10,7 @@ echo "███████ ███████ ███████ ██�
 username="#username#"
 password="#userpassword#"
 path="#path#"
-autosetup="#autosetup#"
+autosetup=false
 
 echo "🔍 Vérification de l'existence de Docker..."
 if ! command -v docker &> /dev/null; then
@@ -40,22 +40,17 @@ fi
 echo "🌱🎬 Installation de Seedflix en cours..."
 sudo apt install curl software-properties-common -y
 
-if [ username == "#username#" ]; then
 echo "💡 Création d'un utilisateur pour Seedflix. Veuillez fournir un nom d'utilisateur et un mot de passe."
 read -p "Nom d'utilisateur: " username
-fi
-if [ password == "#userpassword#" ]; then
 read -p "Mot de passe: " password
-fi
 sudo useradd -m -p $(openssl passwd -1 $password) $username
 sudo usermod -aG docker $username
 echo "✅ Utilisateur $username créé avec succès !"
 
 echo "💡 Création des dossiers nécessaires à Seedflix."
-if [ path == "#path#" ]; then
 echo "Veuillez fournir le chemin absolu du dossier de téléchargement (ex: /data ou /media):"
 read -p "Chemin absolu: " path
-fi
+
 sudo mkdir -p $path/torrents $path/movies $path/tv $path/downloads
 sudo chown -R $username:$username $path/torrents $path/movies $path/tv $path/downloads
 echo "✅ Dossiers créés avec succès !"
@@ -87,16 +82,6 @@ echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker-compose -f /home/$username/seedflix/docker-compose.yml up -d
 
-
-if [ autosetup == "#autosetup#" ]; then
-    read -p "Voulez vous qu'on vous lance l'installation automatique des applications ? (y/n): " autosetup
-    if [ $autosetup == "y" ]; then
-    autosetup= true
-    else
-    autosetup= false
-    fi
-fi
-
 echo "🔍 Les applications"
 echo "Jellyfin http://localhost:8096"
 echo "Radarr http://localhost:7878"
@@ -110,4 +95,6 @@ if [ autosetup == true ]; then
 echo "🌱🎬 Lancement de l'installation automatique des applications..."
 sudo apt install nodejs npm -y
 sudo -u $username node /home/$username/seedflix/autosetup/index.js
+else
+echo "PAS D'AUTOSETUP"
 fi
