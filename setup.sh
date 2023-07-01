@@ -80,7 +80,7 @@ fi
 
 echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
-sudo -u $username docker-compose -f /home/$username/seedflix/docker-compose.yml up -d
+sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml up -d
 
 echo "🔍 Les applications"
 echo "Jellyfin http://localhost:8096"
@@ -97,4 +97,3 @@ sudo apt install nodejs npm -y
 sudo -u $username node /home/$username/seedflix/autosetup/index.js
 else
 echo "PAS D'AUTOSETUP"
-fi
