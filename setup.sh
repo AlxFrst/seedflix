@@ -6,11 +6,16 @@ echo "███████ █████   █████   ██   ██ 
 echo "     ██ ██      ██      ██   ██ ██      ██      ██  ██ ██  "
 echo "███████ ███████ ███████ ██████  ██      ███████ ██ ██   ██ "
 
+# variables terraform or vagrant modify this to automate the installation
+username="#username#"
+password="#userpassword#"
+path="#path#"
+
 echo "🔍 Vérification de l'existence de Docker..."
 if ! command -v docker &> /dev/null; then
 echo "❌ Docker n'est pas installé. Installation en cours..."
 sudo apt update -y
-sudo apt install ca-certificates curl gnupg -y
+sudo apt install ca-certificates gnupg -y
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
@@ -23,10 +28,9 @@ echo "✅ Docker est déjà installé"
 fi
 
 echo "🔍 Vérification de l'existence de Docker Compose..."
-if ! command -v docker-compose &> /dev/null; then
+if ! command docker compose version &> /dev/null; then
 echo "❌ Docker Compose n'est pas installé. Installation en cours..."
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+sudo apt install docker-compose-plugins -y
 echo "✅ Docker Compose installé"
 else
 echo "✅ Docker Compose est déjà installé"
@@ -36,15 +40,21 @@ echo "🌱🎬 Installation de Seedflix en cours..."
 sudo apt install curl software-properties-common -y
 
 echo "💡 Création d'un utilisateur pour Seedflix. Veuillez fournir un nom d'utilisateur et un mot de passe."
+if [ username == "#username#" ]; then
 read -p "Nom d'utilisateur: " username
-read -sp "Mot de passe: " password
+fi
+if [ password == "#userpassword#" ]; then
+read -p "Mot de passe: " password
+fi
 sudo useradd -m -p $(openssl passwd -1 $password) $username
 sudo usermod -aG docker $username
 echo "✅ Utilisateur $username créé avec succès !"
 
 echo "💡 Création des dossiers nécessaires à Seedflix."
 echo "Veuillez fournir le chemin absolu du dossier de téléchargement (ex: /data ou /media):"
+if [ path == "#path#" ]; then
 read -p "Chemin absolu: " path
+fi
 sudo mkdir -p $path/torrents $path/movies $path/tv $path/downloads
 sudo chown -R $username:$username $path/torrents $path/movies $path/tv $path/downloads
 echo "✅ Dossiers créés avec succès !"
