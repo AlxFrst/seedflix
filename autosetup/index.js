@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-let myIP = 'localhost'; // change for debug test with a local server
+let myIP = '192.168.1.128'; // change for debug test with a local server
 let qBittorrentUrl = 'http://' + myIP + ':8080';
 let jackettUrl = 'http://' + myIP + ':9117';
 let sonarrUrl = 'http://' + myIP + ':8989';
@@ -20,12 +20,13 @@ function delay(time) {
     const browser = await puppeteer.launch({ headless: false });
 
     const page = await browser.newPage();
-    await page.setViewport({ width: 1920, height: 1080 }); // debug 
+    await page.setViewport({ width: 1920, height: 1080 }); // DEBUG
 
     // qBittorrent config
     let qbUsername = 'admin';
     let qbPassword = 'adminadmin';
-    let qbDownloadPath = '/data/downloads';
+    let qbDownloadPath = '/data/downloads'; // NEED TO SED THIS BEFORE RUNNING
+
     await page.goto(qBittorrentUrl);
     await page.type('#username', qbUsername);
     await page.type('#password', qbPassword);
