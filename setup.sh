@@ -90,7 +90,7 @@ echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml up -d
 
 # Ask user if he want auto setup y/n if yes set autosetup to true
-echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ?"
+echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ? [Work in progress]"
 read -p "y/n: " autosetup
 if [ "$autosetup" = "y" ] ; then
     autosetup=true
@@ -102,9 +102,13 @@ fi
 # if autosetup is true then run the nodejs script
 if [ "$autosetup" = true ] ; then
     echo "🔍 Lancement de l'installation automatique de Seedflix..."
-    # we need to npm i in the nodejs folder
+    # install nodejs 16 and npm
+    curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+    sudo apt update -y
+    sudo apt-get install -y nodejs
+    sudo apt-get install -y chromium-browser
+    sudo apt-get install libx11-xcb1 libxcomposite1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 
     sudo -u $username npm i --prefix /home/$username/seedflix/autosetup
-    sudo -u $username node /home/$username/seedflix/autosetup/index.js
     else
     echo "Pas d'installation automatique de Seedflix."
 fi

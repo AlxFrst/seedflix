@@ -161,6 +161,5 @@ function delay(time) {
     await jellyfinPage.waitForSelector('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
     await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
     console.log('Jellyfin setup done');
-
-
+    await jellyfinPage.close();
 })();

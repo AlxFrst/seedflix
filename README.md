@@ -124,7 +124,7 @@ Félicitations ! Vous avez maintenant installé et configuré Seedflix sur votre
 - **Radarr** : http://localhost:7878
 - **qBittorrent** : http://localhost:8080
 - **FlareSolverr** : http://localhost:8191
-- **Jellyseerr** : http://localhost:8192
+- **Jellyseerr** : http://localhost:5055
 
 
 ## Conseils 📝
