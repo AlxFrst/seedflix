@@ -16,7 +16,7 @@ function delay(time) {
 
 (async () => {
 
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
 
     // qBittorrent
     // variables
