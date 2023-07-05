@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 
-let myIP = 'localhost'; // NEED TO SED THIS BEFORE RUNNING
+let myIP = '192.168.1.210'; // NEED TO SED THIS BEFORE RUNNING
 let qBittorrentUrl = 'http://' + myIP + ':8080';
 let jackettUrl = 'http://' + myIP + ':9117';
 let sonarrUrl = 'http://' + myIP + ':8989/settings/general';
@@ -17,10 +17,9 @@ function delay(time) {
 
 (async () => {
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: false });
 
     // qBittorrent
-    // variables
     let qbUsername = 'admin';
     let qbPassword = 'adminadmin';
     let qbDownloadPath = '/data/downloads'; // NEED TO SED THIS BEFORE RUNNING
@@ -37,36 +36,34 @@ function delay(time) {
     await qBittorrentpage.waitForSelector('#PrefDownloadsLink > a');
     await qBittorrentpage.click('#PrefDownloadsLink > a');
     await qBittorrentpage.waitForSelector('#savepath_text');
-    await qBittorrentpage.evaluate((qbDownloadPath) => {
-        document.querySelector('#savepath_text').value = qbDownloadPath;
-    }, qbDownloadPath);
+    await qBittorrentpage.evaluate((qbDownloadPath) => { document.querySelector('#savepath_text').value = qbDownloadPath; }, qbDownloadPath);
     await qBittorrentpage.click('#PrefBittorrentLink > a');
     await qBittorrentpage.waitForSelector('#max_ratio_checkbox');
     await qBittorrentpage.click('#max_ratio_checkbox');
-    await qBittorrentpage.evaluate(() => {
-        document.querySelector('#max_ratio_value').value = 0;
-    });
+    await qBittorrentpage.evaluate(() => { document.querySelector('#max_ratio_value').value = 0; });
     await qBittorrentpage.click('#preferencesPage_content > div:nth-child(8) > input[type=button]');
     console.log('qBittorrent config done');
     await qBittorrentpage.close();
 
     // JACKETT
+    let jacketIndexers = ['1337x', 'ThePirateBay', 'Torrent911'];
+    // TODO: add indexers
+    // TODO: tests each indexer to be sure it's working
+    // TODO: add FlareSolverr url
     const jackettPage = await browser.newPage();
     await jackettPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
     await jackettPage.goto(jackettUrl, { waitUntil: 'networkidle2' });
-    let jackettApiKey = await jackettPage.evaluate(() => {
-        return document.querySelector('#api-key-input').value;
-    });
+    let jackettApiKey = await jackettPage.evaluate(() => { return document.querySelector('#api-key-input').value; });
     console.log('jackettApiKey: ' + jackettApiKey);
     await jackettPage.close();
 
     // SONARR
+    // TODO: add qbittorrent to sonarr
+    // TODO: add each indexers
     const sonarrPage = await browser.newPage();
     await sonarrPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
     await sonarrPage.goto(sonarrUrl, { waitUntil: 'networkidle2' });
-    const inputValues = await sonarrPage.$$eval('input[type="text"]', inputs => {
-        return inputs.map(input => input.value);
-    });
+    const inputValues = await sonarrPage.$$eval('input[type="text"]', inputs => { return inputs.map(input => input.value); });
     let sonarrApiKey = inputValues[2]; // Récupérer la troisième valeur du tableau
     console.log('sonarrApiKey: ' + sonarrApiKey);
     await sonarrPage.close();
@@ -75,18 +72,16 @@ function delay(time) {
     const radarrPage = await browser.newPage();
     await radarrPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
     await radarrPage.goto(radarrUrl, { waitUntil: 'networkidle2' });
-    const inputValues2 = await radarrPage.$$eval('input[type="text"]', inputs => {
-        return inputs.map(input => input.value);
-    }
-    );
+    const inputValues2 = await radarrPage.$$eval('input[type="text"]', inputs => { return inputs.map(input => input.value); });
     let radarrApiKey = inputValues2[2]; // Récupérer la troisième valeur du tableau
     console.log('radarrApiKey: ' + radarrApiKey);
     await radarrPage.close();
-    // make an api call to radarr to get the root folder id
+    // ADD QBittorrent to Radarr
+    let r = 'http://' + myIP + ':7878/api/v3/downloadclient', d = { name: 'qbittorrent', protocol: 'torrent', fields: [{ name: 'url', value: qBittorrentUrl }, { name: 'username', value: qbUsername }, { name: 'password', value: qbPassword }], implementationName: 'QBitTorrent', implementation: 'QBitTorrent', configContract: 'QBitTorrentSettings', enable: true }, c = { headers: { 'Content-Type': 'application/json', 'X-Api-Key': radarrApiKey } }; axios.post(r, d, c).then(console.log('[RADARR] qBittorrent added')).catch(r => { console.error(r) });
+
 
 
     // JELLYFIN
-    // variables
     let jellyfinUsername = 'admin'; // NEED TO SED THIS BEFORE RUNNING
     let jellyfinPassword = 'adminadmin'; // NEED TO SED THIS BEFORE RUNNING
     let jellyfinLanguage = 'fr'; // NEED TO SED THIS BEFORE RUNNING
@@ -106,12 +101,8 @@ function delay(time) {
     await jellyfinPage.keyboard.up('Control');
     await jellyfinPage.keyboard.press('Backspace');
     await jellyfinPage.type('#txtUsername', jellyfinUsername);
-    await jellyfinPage.evaluate((jellyfinPassword) => {
-        document.querySelector('#txtManualPassword').value = jellyfinPassword;
-    }, jellyfinPassword);
-    await jellyfinPage.evaluate((jellyfinPassword) => {
-        document.querySelector('#txtPasswordConfirm').value = jellyfinPassword;
-    }, jellyfinPassword);
+    await jellyfinPage.evaluate((jellyfinPassword) => { document.querySelector('#txtManualPassword').value = jellyfinPassword; }, jellyfinPassword);
+    await jellyfinPage.evaluate((jellyfinPassword) => { document.querySelector('#txtPasswordConfirm').value = jellyfinPassword; }, jellyfinPassword);
     await jellyfinPage.click('#wizardUserPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button');
     await jellyfinPage.waitForSelector('#addLibrary > div > div.cardScalable.visualCardBox-cardScalable > div.cardContent > div');
     await jellyfinPage.click('#addLibrary > div > div.cardScalable.visualCardBox-cardScalable > div.cardContent > div');
@@ -121,7 +112,7 @@ function delay(time) {
     await jellyfinPage.keyboard.press('Enter');
     await jellyfinPage.click('body > div.dialogContainer > div > div.formDialogContent.scrollY > div > div.folders > div:nth-child(1) > button');
     await jellyfinPage.waitForSelector('#txtDirectoryPickerPath');
-    await jellyfinPage.type('#txtDirectoryPickerPath', '/data/movies');
+    await jellyfinPage.type('#txtDirectoryPickerPath', jellyfinMoviePath);
     await jellyfinPage.keyboard.press('Enter');
     await jellyfinPage.waitForSelector('#selectLanguage');
     await jellyfinPage.select('select#selectLanguage', jellyfinLanguage);
@@ -139,7 +130,7 @@ function delay(time) {
     await jellyfinPage.keyboard.press('Enter');
     await jellyfinPage.click('body > div.dialogContainer > div > div.formDialogContent.scrollY > div > div.folders > div:nth-child(1) > button');
     await jellyfinPage.waitForSelector('#txtDirectoryPickerPath');
-    await jellyfinPage.type('#txtDirectoryPickerPath', '/data/tv');
+    await jellyfinPage.type('#txtDirectoryPickerPath', jellyfinTvPath);
     await jellyfinPage.keyboard.press('Enter');
     await jellyfinPage.waitForSelector('#selectLanguage');
     await jellyfinPage.select('select#selectLanguage', jellyfinLanguage);
@@ -157,10 +148,7 @@ function delay(time) {
     await jellyfinPage.click('#wizardSettingsPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button');
     await delay(2000);
     await jellyfinPage.waitForSelector('#wizardSettingsPage > div > div > form > div:nth-child(2) > label > span.checkboxOutline');
-    // click on #wizardSettingsPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button but it's the seconde in the NodeList
-    await jellyfinPage.evaluate(() => {
-        document.querySelectorAll('#wizardSettingsPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button')[1].click();
-    });
+    await jellyfinPage.evaluate(() => { document.querySelectorAll('#wizardSettingsPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button')[1].click(); });
     await jellyfinPage.waitForSelector('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
     await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
     console.log('Jellyfin setup done');
