@@ -103,8 +103,8 @@ fi
 if [ "$autosetup" = true ] ; then
     echo "🔍 Lancement de l'installation automatique de Seedflix..."
     # we need to npm i in the nodejs folder
-    sudo -u $username npm i --prefix /home/$username/seedflix/auto-setup
-    sudo -u $username node /home/$username/seedflix/auto-setup/index.js
+    sudo -u $username npm i --prefix /home/$username/seedflix/autosetup
+    sudo -u $username node /home/$username/seedflix/autosetup/index.js
     else
     echo "Pas d'installation automatique de Seedflix."
 fi
