@@ -25,17 +25,20 @@ function delay(time) {
     let radarrApiKey = inputValues2[2]; // Récupérer la troisième valeur du tableau
     console.log('radarrApiKey: ' + radarrApiKey);
     await radarrPage.goto('http://' + myIP + ':7878/settings/downloadclients', { waitUntil: 'networkidle2' });
-    await radarrPage.$$eval('button', buttons => { buttons[buttons.length - 2].click(); }); await radarrPage.$$eval('button', btns => { btns[13].click(); });
+    await radarrPage.$$eval('button', buttons => { buttons[buttons.length - 2].click(); });
+    await radarrPage.$$eval('button', btns => { btns[13].click(); });
     await radarrPage.$$eval('input[type="text"]', inputs => {
-        inputs[0].value = 'qbittorrent';
-        inputs[3].value = 'admin';
-        inputs[4].value = 'adminadmin';
+        // click on the first input
+        inputs[0].click();
+        inputs[0].type = 'qbittorrent';
+        inputs[3].click();
+        inputs[3].type = 'admin';
+        inputs[4].click();
+        inputs[3].type = 'adminadmin';
+
     });
     await delay(3000);
-    const savebutton = await radarrPage.$$eval('button', btns => {
-        // click on the 7th button
-        btns[6].click();
-    });
+    await radarrPage.$$eval('button', btns => { btns[6].click(); });
 
 
 })();
