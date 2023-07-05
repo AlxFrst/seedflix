@@ -90,3 +90,13 @@ services:
     volumes:
       - /home/media/jellyseerr/config:/app/config
     restart: unless-stopped
+  flaresolverr:
+    # DockerHub mirror flaresolverr/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Europe/London
+    ports:
+      - "8191:8191"
+    restart: unless-stopped
