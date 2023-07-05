@@ -89,9 +89,22 @@ echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml up -d
 
+# Ask user if he want auto setup y/n if yes set autosetup to true
+echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ?"
+read -p "y/n: " autosetup
+if [ "$autosetup" = "y" ] ; then
+    autosetup=true
+    else
+    autosetup=false
+fi
+
+
 # if autosetup is true then run the nodejs script
 if [ "$autosetup" = true ] ; then
     echo "🔍 Lancement de l'installation automatique de Seedflix..."
+    # we need to npm i in the nodejs folder
+    sudo -u $username npm i --prefix /home/$username/seedflix/auto-setup
+    sudo -u $username node /home/$username/seedflix/auto-setup/index.js
     else
     echo "Pas d'installation automatique de Seedflix."
 fi
