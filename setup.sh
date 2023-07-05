@@ -53,17 +53,29 @@ sudo usermod -aG docker $username
 echo "✅ Utilisateur $username créé avec succès !"
 
 echo "💡 Création des dossiers nécessaires à Seedflix."
-echo "Veuillez fournir le chemin absolu du dossier de téléchargement (ex: /data ou /media):"
-if [ "$path" = "#path#" ]; then
-    read -p "Chemin absolu: " path
-fi
+while true; do
+    read -p "Veuillez fournir le chemin absolu du dossier de téléchargement (ex: /data ou /media): " path
+
+    if [[ -z $path ]]; then
+        path="/data"
+        echo "Aucun chemin fourni. La valeur par défaut '/data' sera utilisée."
+        break
+    elif [[ $path == /* ]]; then
+        break
+    else
+        echo "Veuillez fournir un chemin absolu commençant par '/'"
+    fi
+done
 
 # Ask user if he want auto setup y/n if yes set autosetup to true
-echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ? [Work in progress do not select y for now]"
+echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ? [Work in progress, ne sélectionnez pas 'y' pour le moment]"
 read -p "y/n: " autosetup
-if [ "$autosetup" = "y" ] ; then
+
+if [[ -z $autosetup ]]; then
+    autosetup=false
+elif [[ "$autosetup" = "y" ]]; then
     autosetup=true
-    else
+else
     autosetup=false
 fi
 
@@ -103,9 +115,8 @@ sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml 
 # if autosetup is true then run the nodejs script
 if [ "$autosetup" = true ] ; then
     echo "🔍 Lancement de l'installation automatique de Seedflix..."
-    # install nodejs 16 and npm
     curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-    sudo apt update -y
+    sudo apt update -y > /dev/null 2>&1
     sudo apt-get install -y nodejs > /dev/null 2>&1
     sudo apt-get install -y chromium-browser > /dev/null 2>&1
     sudo apt-get install -y libx11-xcb1 libxcomposite1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 > /dev/null 2>&1
