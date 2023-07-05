@@ -58,6 +58,15 @@ if [ "$path" = "#path#" ]; then
     read -p "Chemin absolu: " path
 fi
 
+# Ask user if he want auto setup y/n if yes set autosetup to true
+echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ? [Work in progress do not select y for now]"
+read -p "y/n: " autosetup
+if [ "$autosetup" = "y" ] ; then
+    autosetup=true
+    else
+    autosetup=false
+fi
+
 sudo mkdir -p $path/torrents $path/movies $path/tv $path/downloads
 sudo chown -R $username:$username $path/torrents $path/movies $path/tv $path/downloads
 echo "✅ Dossiers créés avec succès !"
@@ -89,14 +98,6 @@ echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml up -d
 
-# Ask user if he want auto setup y/n if yes set autosetup to true
-echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ? [Work in progress]"
-read -p "y/n: " autosetup
-if [ "$autosetup" = "y" ] ; then
-    autosetup=true
-    else
-    autosetup=false
-fi
 
 
 # if autosetup is true then run the nodejs script
@@ -105,10 +106,11 @@ if [ "$autosetup" = true ] ; then
     # install nodejs 16 and npm
     curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
     sudo apt update -y
-    sudo apt-get install -y nodejs
-    sudo apt-get install -y chromium-browser
-    sudo apt-get install libx11-xcb1 libxcomposite1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 
-    sudo -u $username npm i --prefix /home/$username/seedflix/autosetup
+    sudo apt-get install -y nodejs > /dev/null 2>&1
+    sudo apt-get install -y chromium-browser > /dev/null 2>&1
+    sudo apt-get install -y libx11-xcb1 libxcomposite1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 > /dev/null 2>&1
+    sudo -u $username npm install --prefix /home/$username/seedflix/autosetup
+    sudo -u $username node /home/$username/seedflix/autosetup/index.js
     else
     echo "Pas d'installation automatique de Seedflix."
 fi
