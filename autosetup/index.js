@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const axios = require('axios');
 
 let myIP = 'localhost'; // NEED TO SED THIS BEFORE RUNNING
 let qBittorrentUrl = 'http://' + myIP + ':8080';
@@ -16,7 +17,7 @@ function delay(time) {
 
 (async () => {
 
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch();
 
     // qBittorrent
     // variables
@@ -81,6 +82,8 @@ function delay(time) {
     let radarrApiKey = inputValues2[2]; // Récupérer la troisième valeur du tableau
     console.log('radarrApiKey: ' + radarrApiKey);
     await radarrPage.close();
+    // make an api call to radarr to get the root folder id
+
 
     // JELLYFIN
     // variables
@@ -162,4 +165,8 @@ function delay(time) {
     await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
     console.log('Jellyfin setup done');
     await jellyfinPage.close();
+
+    // close browser
+    await browser.close();
+
 })();
