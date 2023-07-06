@@ -80,7 +80,7 @@ else
     autosetup=false
 fi
 
-echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ? [Work in progress, ne sélectionnez pas 'y' pour le moment]"
+echo "🔍 Voulez-vous lancer l'installation de la supervision ? [Work in progress, ne sélectionnez pas 'y' pour le moment]"
 if [[ -z $supervision ]]; then
     supervision=false
 elif [[ "$supervision" = "y" ]]; then
