@@ -73,7 +73,6 @@ function delay(time) {
 
 
     // SONARR
-    // TODO: add qbittorrent to sonarr
     // TODO: add each indexers
     const sonarrPage = await browser.newPage();
     await sonarrPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
@@ -82,9 +81,15 @@ function delay(time) {
     let sonarrApiKey = inputValues[2]; // Récupérer la troisième valeur du tableau
     console.log('[Sonarr] Clé api: ' + sonarrApiKey);
     await sonarrPage.close();
+    // API CALLS
+    const headers = { 'X-Api-Key': sonarrApiKey, 'Content-Type': 'application/json' };
+    const data = { "name": "qbittorrent", "protocol": "torrent", "fields": [{ "name": "host", "value": "qbittorrent" }, { "name": "username", "value": "admin" }, { "name": "password", "value": "adminadmin" }], "implementationName": "QBitTorrent", "implementation": "QBitTorrent", "configContract": "QBitTorrentSettings", "enable": true };
+    axios.post(sonarrUrl + '/api/v3/downloadclient', data, { headers })
+        .then(response => console.log(response.data))
+        .catch(error => console.error(error));
 
     // RADARR
-    // TODO: add qbittorrent to sonarr
+    // TODO: add qbittorrent to radarr
     // TODO: add each indexers
     const radarrPage = await browser.newPage();
     await radarrPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
@@ -93,6 +98,7 @@ function delay(time) {
     let radarrApiKey = inputValues2[2]; // Récupérer la troisième valeur du tableau
     console.log('[Radarr] Clé api: ' + radarrApiKey);
     await radarrPage.close();
+
 
     // JELLYFIN
     let jellyfinUsername = 'admin'; // NEED TO SED THIS BEFORE RUNNING

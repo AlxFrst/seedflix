@@ -19,7 +19,7 @@ function delay(time) {
 (async () => {
 
     console.log('Démarrage de l\'installation automatique de chaques services veuillez patienter...');
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch();
 
     // RADARR
     // TODO: add qbittorrent to sonarr
@@ -30,32 +30,16 @@ function delay(time) {
     const inputValues2 = await radarrPage.$$eval('input[type="text"]', inputs => { return inputs.map(input => input.value); });
     let radarrApiKey = inputValues2[2]; // Récupérer la troisième valeur du tableau
     console.log('[Radarr] Clé api: ' + radarrApiKey);
-    // send an api post request to add qbittorrent
-    await axios.post(radarrUrl + '/api/v3/downloadclient', {
-        "name": "qBittorrent",
-        "enabled": true,
-        "protocol": "torrent",
-        "fields": {
-            "url": "http://localhost:8080/",
-            "username": "admin",
-            "password": "adminadmin",
-            "category": "radarr",
-            "useSsl": false,
-            "bypassProxy": false,
-            "saveTorrents": true,
-            "saveTorrentsLocation": "/downloads",
-            "useAuth": true,
-            "server": "qBittorrent"
-        }
-    }, {
-        headers: {
-            'X-Api-Key': radarrApiKey
-        }
-    }).then((res) => {
-        console.log('[Radarr] qBittorrent ajouté avec succès');
-    }
-    ).catch((err) => {
-        console.log('[Radarr] Erreur lors de l\'ajout de qBittorrent');
-    }
-    );
+    await radarrPage.close();
+    const radarrheaders = { 'X-Api-Key': radarrApiKey, 'Content-Type': 'application/json' };
+    let addQbitToRadarr = { "name": "qbittorrent", "protocol": "torrent", "fields": [{ "name": "host", "value": "qbittorrent" }, { "name": "username", "value": "admin" }, { "name": "password", "value": "adminadmin" }], "implementationName": "QBitTorrent", "implementation": "QBitTorrent", "configContract": "QBitTorrentSettings", "enable": true };
+    axios.post(radarrUrl + '/api/v3/downloadclient', addQbitToRadarr, { radarrheaders })
+        .then(response => console.log(response.data))
+        .catch(error => console.error(error));
+
+    // close browser
+    await browser.close();
+    console.log("L'installation des services est terminée");
+    console.log("Vous pouvez desormer acceder a JellySeer via l'adresse suivante : http://localhost:5055");
+
 })();
