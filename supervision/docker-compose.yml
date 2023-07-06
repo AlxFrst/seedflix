@@ -1,0 +1,45 @@
+version: '3'
+services:
+    grafana:
+        container_name: monitoring-grafana
+        image: grafana/grafana:latest
+        hostname: grafana
+        restart: unless-stopped
+        user: '0'
+        networks:
+            - internal
+        ports:
+            - '3000:3000'
+        env_file:
+            - ./grafana/.env
+            - ./influxdb/.env
+        volumes:
+            - ./grafana/data:/var/lib/grafana
+            - ./grafana/provisioning:/etc/grafana/provisioning
+            - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+        depends_on:
+            - influxdb
+
+    influxdb:
+        container_name: monitoring-influxdb
+        image: influxdb:latest
+        hostname: influxdb
+        restart: unless-stopped
+        networks:
+            - internal
+        ports:
+            - '8086:8086'
+        volumes:
+            - ./influxdb/data:/var/lib/influxdb2
+            - ./influxdb/config:/etc/influxdb2
+        env_file:
+            - ./influxdb/.env
+        environment:
+            - DOCKER_INFLUXDB_INIT_MODE=setup
+networks:
+    internal:
+        driver: bridge
+
+volumes:
+    grafana_data:
+    influxdb_data:
