@@ -17,6 +17,7 @@ services:
             - ./grafana/data:/var/lib/grafana
             - ./grafana/provisioning:/etc/grafana/provisioning
             - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+            - ./grafana/datasources:/etc/grafana/provisioning/datasources
         depends_on:
             - influxdb
 
@@ -36,6 +37,24 @@ services:
             - ./influxdb/.env
         environment:
             - DOCKER_INFLUXDB_INIT_MODE=setup
+
+    telegraf:
+        image: telegraf
+        depends_on:
+            - influxdb
+        container_name: telegraf
+        restart: always
+        user: '${DOCKER_USER}'
+        networks:
+            - internal
+        env_file:
+            - ./influxdb/.env
+        links:
+            - influxdb:influxdb
+        tty: true
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf
 networks:
     internal:
         driver: bridge
@@ -43,3 +62,4 @@ networks:
 volumes:
     grafana_data:
     influxdb_data:
+    telegraf_data:
