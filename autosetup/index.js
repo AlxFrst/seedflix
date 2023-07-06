@@ -4,10 +4,11 @@ const axios = require('axios');
 let myIP = 'localhost'; // NEED TO SED THIS BEFORE RUNNING
 let qBittorrentUrl = 'http://' + myIP + ':8080';
 let jackettUrl = 'http://' + myIP + ':9117';
-let sonarrUrl = 'http://' + myIP + ':8989/settings/general';
-let radarrUrl = 'http://' + myIP + ':7878/settings/general';
+let sonarrUrl = 'http://' + myIP + ':8989';
+let radarrUrl = 'http://' + myIP + ':7878';
 let jellyfinUrl = 'http://' + myIP + ':8096';
 let jellyseerrUrl = 'http://' + myIP + ':5055';
+let flareSolverrUrl = 'http://' + myIP + ':8191';
 
 function delay(time) {
     return new Promise(function (resolve) {
@@ -47,7 +48,7 @@ function delay(time) {
     await qBittorrentpage.close();
 
     // JACKETT
-    let jacketIndexers = ['1337x', 'ThePirateBay', 'Torrent911'];
+    let jacketIndexers = ['ThePirateBay', 'Torrent911'];
     // TODO: add indexers
     // TODO: tests each indexer to be sure it's working
     // TODO: add FlareSolverr url
@@ -56,31 +57,42 @@ function delay(time) {
     await jackettPage.goto(jackettUrl, { waitUntil: 'networkidle2' });
     let jackettApiKey = await jackettPage.evaluate(() => { return document.querySelector('#api-key-input').value; });
     console.log('[Jackett] Clé api: ' + jackettApiKey);
+    await jackettPage.click('#jackett-add-indexer');
+    await delay(1000);
+    for (indexer of jacketIndexers) {
+        await jackettPage.click('#select' + indexer.toLowerCase());
+        await delay(1000);
+    }
+    await jackettPage.click('#add-selected-indexers');
+    await delay(1000);
+    await jackettPage.reload({ waitUntil: 'networkidle2' });
+    await jackettPage.waitForSelector('#jackett-add-indexer')
+    await jackettPage.click('#jackett-test-all');
+    await delay(3000);
     await jackettPage.close();
+
 
     // SONARR
     // TODO: add qbittorrent to sonarr
     // TODO: add each indexers
     const sonarrPage = await browser.newPage();
     await sonarrPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
-    await sonarrPage.goto(sonarrUrl, { waitUntil: 'networkidle2' });
+    await sonarrPage.goto(sonarrUrl + "/settings/general", { waitUntil: 'networkidle2' });
     const inputValues = await sonarrPage.$$eval('input[type="text"]', inputs => { return inputs.map(input => input.value); });
     let sonarrApiKey = inputValues[2]; // Récupérer la troisième valeur du tableau
     console.log('[Sonarr] Clé api: ' + sonarrApiKey);
     await sonarrPage.close();
 
     // RADARR
+    // TODO: add qbittorrent to sonarr
+    // TODO: add each indexers
     const radarrPage = await browser.newPage();
     await radarrPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
-    await radarrPage.goto(radarrUrl, { waitUntil: 'networkidle2' });
+    await radarrPage.goto(radarrUrl + "/settings/general", { waitUntil: 'networkidle2' });
     const inputValues2 = await radarrPage.$$eval('input[type="text"]', inputs => { return inputs.map(input => input.value); });
     let radarrApiKey = inputValues2[2]; // Récupérer la troisième valeur du tableau
     console.log('[Radarr] Clé api: ' + radarrApiKey);
     await radarrPage.close();
-    // ADD QBittorrent to Radarr
-    let r = 'http://' + myIP + ':7878/api/v3/downloadclient', d = { name: 'qbittorrent', protocol: 'torrent', fields: [{ name: 'url', value: qBittorrentUrl }, { name: 'username', value: qbUsername }, { name: 'password', value: qbPassword }], implementationName: 'QBitTorrent', implementation: 'QBitTorrent', configContract: 'QBitTorrentSettings', enable: true }, c = { headers: { 'Content-Type': 'application/json', 'X-Api-Key': radarrApiKey } }; axios.post(r, d, c).then(console.log('[RADARR] qBittorrent added')).catch(r => { console.error(r) });
-
-
 
     // JELLYFIN
     let jellyfinUsername = 'admin'; // NEED TO SED THIS BEFORE RUNNING
@@ -154,6 +166,9 @@ function delay(time) {
     await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
     console.log('[Jellyfin] Installation terminée');
     await jellyfinPage.close();
+
+    // JELLYSEER
+
 
     // close browser
     await browser.close();
