@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 
-let myIP = '192.168.1.210'; // NEED TO SED THIS BEFORE RUNNING
+let myIP = 'localhost'; // NEED TO SED THIS BEFORE RUNNING
 let qBittorrentUrl = 'http://' + myIP + ':8080';
 let jackettUrl = 'http://' + myIP + ':9117';
 let sonarrUrl = 'http://' + myIP + ':8989/settings/general';
@@ -17,7 +17,8 @@ function delay(time) {
 
 (async () => {
 
-    const browser = await puppeteer.launch({ headless: false });
+    console.log('Démarrage de l\'installation automatique de chaques services veuillez patienter...');
+    const browser = await puppeteer.launch();
 
     // qBittorrent
     let qbUsername = 'admin';
@@ -42,7 +43,7 @@ function delay(time) {
     await qBittorrentpage.click('#max_ratio_checkbox');
     await qBittorrentpage.evaluate(() => { document.querySelector('#max_ratio_value').value = 0; });
     await qBittorrentpage.click('#preferencesPage_content > div:nth-child(8) > input[type=button]');
-    console.log('qBittorrent config done');
+    console.log('[qBittorrent] Installation terminée');
     await qBittorrentpage.close();
 
     // JACKETT
@@ -54,7 +55,7 @@ function delay(time) {
     await jackettPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
     await jackettPage.goto(jackettUrl, { waitUntil: 'networkidle2' });
     let jackettApiKey = await jackettPage.evaluate(() => { return document.querySelector('#api-key-input').value; });
-    console.log('jackettApiKey: ' + jackettApiKey);
+    console.log('[Jackett] Clé api: ' + jackettApiKey);
     await jackettPage.close();
 
     // SONARR
@@ -65,7 +66,7 @@ function delay(time) {
     await sonarrPage.goto(sonarrUrl, { waitUntil: 'networkidle2' });
     const inputValues = await sonarrPage.$$eval('input[type="text"]', inputs => { return inputs.map(input => input.value); });
     let sonarrApiKey = inputValues[2]; // Récupérer la troisième valeur du tableau
-    console.log('sonarrApiKey: ' + sonarrApiKey);
+    console.log('[Sonarr] Clé api: ' + sonarrApiKey);
     await sonarrPage.close();
 
     // RADARR
@@ -74,7 +75,7 @@ function delay(time) {
     await radarrPage.goto(radarrUrl, { waitUntil: 'networkidle2' });
     const inputValues2 = await radarrPage.$$eval('input[type="text"]', inputs => { return inputs.map(input => input.value); });
     let radarrApiKey = inputValues2[2]; // Récupérer la troisième valeur du tableau
-    console.log('radarrApiKey: ' + radarrApiKey);
+    console.log('[Radarr] Clé api: ' + radarrApiKey);
     await radarrPage.close();
     // ADD QBittorrent to Radarr
     let r = 'http://' + myIP + ':7878/api/v3/downloadclient', d = { name: 'qbittorrent', protocol: 'torrent', fields: [{ name: 'url', value: qBittorrentUrl }, { name: 'username', value: qbUsername }, { name: 'password', value: qbPassword }], implementationName: 'QBitTorrent', implementation: 'QBitTorrent', configContract: 'QBitTorrentSettings', enable: true }, c = { headers: { 'Content-Type': 'application/json', 'X-Api-Key': radarrApiKey } }; axios.post(r, d, c).then(console.log('[RADARR] qBittorrent added')).catch(r => { console.error(r) });
@@ -151,10 +152,12 @@ function delay(time) {
     await jellyfinPage.evaluate(() => { document.querySelectorAll('#wizardSettingsPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button')[1].click(); });
     await jellyfinPage.waitForSelector('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
     await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
-    console.log('Jellyfin setup done');
+    console.log('[Jellyfin] Installation terminée');
     await jellyfinPage.close();
 
     // close browser
     await browser.close();
+    console.log("L'installation des services est terminée");
+    console.log("Vous pouvez desormer acceder a JellySeer via l'adresse suivante : http://localhost:5055");
 
 })();
