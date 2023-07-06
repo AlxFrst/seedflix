@@ -81,6 +81,7 @@ else
 fi
 
 echo "🔍 Voulez-vous lancer l'installation de la supervision ? [Work in progress, ne sélectionnez pas 'y' pour le moment]"
+read -p "y/n: " supervision
 if [[ -z $supervision ]]; then
     supervision=false
 elif [[ "$supervision" = "y" ]]; then
