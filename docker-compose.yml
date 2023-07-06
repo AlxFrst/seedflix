@@ -6,7 +6,8 @@ services:
     restart: unless-stopped
     group_add:
       - "122"
-    network_mode: "host"
+    networks:
+      - internal
     ports:
       - 8096:8096
       - 8920:8920
@@ -24,7 +25,8 @@ services:
     image: linuxserver/jackett:latest
     container_name: jackett
     restart: unless-stopped
-    network_mode: "host"
+    networks:
+      - internal
     ports:
       - 9117:9117
     environment:
@@ -38,7 +40,8 @@ services:
     image: linuxserver/sonarr:latest
     container_name: sonarr
     restart: unless-stopped
-    network_mode: "host"
+    networks:
+      - internal
     ports:
       - 8989:8989
     environment:
@@ -52,7 +55,8 @@ services:
     image: linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
-    network_mode: "host"
+    networks:
+      - internal
     ports:
       - 7878:7878
     environment:
@@ -65,7 +69,6 @@ services:
   qbittorrent:
     image: ghcr.io/linuxserver/qbittorrent
     container_name: qbittorrent
-    network_mode: "host"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -74,6 +77,8 @@ services:
     volumes:
       - /path/to/appdata/config:/config
       - ${PATH_MEDIA}:/data
+    networks:
+      - internal
     ports:
       - 6881:6881
       - 6881:6881/udp
@@ -85,8 +90,28 @@ services:
     environment:
       - LOG_LEVEL=debug
       - TZ=Europe/Paris
+    networks:
+      - internal
     ports:
       - 5055:5055
     volumes:
       - /home/media/jellyseerr/config:/app/config
     restart: unless-stopped
+  flaresolverr:
+    # DockerHub mirror flaresolverr/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Europe/London
+    networks:
+      - internal
+    ports:
+      - "8191:8191"
+    restart: unless-stopped
+
+networks:
+  internal:
+    driver: bridge
+
+    
