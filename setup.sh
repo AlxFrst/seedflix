@@ -11,6 +11,7 @@ username="#username#"
 password="#userpassword#"
 path="#path#"
 autosetup=false
+superuser=false
 
 echo "🔍 Vérification de l'existence de Docker..."
 if ! command -v docker &> /dev/null; then
@@ -79,6 +80,15 @@ else
     autosetup=false
 fi
 
+echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ? [Work in progress, ne sélectionnez pas 'y' pour le moment]"
+if [[ -z $supervision ]]; then
+    supervision=false
+elif [[ "$supervision" = "y" ]]; then
+    supervision=true
+else
+    supervision=false
+fi
+
 sudo mkdir -p $path/torrents $path/movies $path/tv $path/downloads
 sudo chown -R $username:$username $path/torrents $path/movies $path/tv $path/downloads
 echo "✅ Dossiers créés avec succès !"
@@ -110,6 +120,13 @@ echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml up -d
 
+if ["$supervision" = true ] ; then
+    echo "Installation de la supervision en cours..."
+    # sed the 1000 in /home/$username/supervision/.env par l'id du groupe docker
+    # sudo -u $username sed -i "s/1000/$(getent group docker | cut -d: -f3)/g" /home/$username/supervision/.env
+    # start the docker-compose in /home/$username/supervision
+    # sudo -u $username docker compose -f /home/$username/supervision/docker-compose.yml up -d
+fi
 
 
 # if autosetup is true then run the nodejs script
