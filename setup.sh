@@ -12,8 +12,6 @@ password="#userpassword#"
 path="#path#"
 autosetup=false
 superuser=false
-grafanainfluxuser="#grafanainfluxuser#"
-grafanainfluxpassword="#grafanainfluxpassword#"
 
 echo "🔍 Vérification de l'existence de Docker..."
 if ! command -v docker &> /dev/null; then
