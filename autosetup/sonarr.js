@@ -16,15 +16,12 @@ let sonarrUrl = 'http://localhost:8989';
     const inputValues = await sonarrPage.$$eval('input[type="text"]', inputs => { return inputs.map(input => input.value); });
     let sonarrApiKey = inputValues[2]; // Récupérer la troisième valeur du tableau
     console.log('[Sonarr] Clé api: ' + sonarrApiKey);
-    let keys = require('./keys.json');
-    keys.Sonarr = sonarrApiKey;
-    let keysJson = JSON.stringify(keys);
-    require('fs').writeFileSync('./keys.json', keysJson);
     await sonarrPage.close();
 
-    // get the Jackett api key from keys.json
-    keys = require('./keys.json');
-    let jackettApiKey = keys.Jackett;
+    const jackettPage = await browser.newPage();
+    await jackettPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
+    await jackettPage.goto(jackettUrl, { waitUntil: 'networkidle2' });
+    let jackettApiKey = await jackettPage.evaluate(() => { return document.querySelector('#api-key-input').value; });
 
     // API CALLS
     const headers = { 'X-Api-Key': sonarrApiKey, 'Content-Type': 'application/json' };

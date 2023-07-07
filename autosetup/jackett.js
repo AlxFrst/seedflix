@@ -21,10 +21,6 @@ function delay(time) {
     await jackettPage.goto(jackettUrl, { waitUntil: 'networkidle2' });
     let jackettApiKey = await jackettPage.evaluate(() => { return document.querySelector('#api-key-input').value; });
     console.log('[Jackett] Clé api: ' + jackettApiKey);
-    // add the api keys to keys.json like Jackett: 'key'
-    let keys = require('./keys.json');
-    keys.Jackett = jackettApiKey;
-    let keysJson = JSON.stringify(keys);
     require('fs').writeFileSync('./keys.json', keysJson);
 
     await jackettPage.click('#jackett-add-indexer');
