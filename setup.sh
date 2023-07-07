@@ -82,8 +82,8 @@ echo "password: $password"
 echo "path: $path"
 echo "autosetup: $autosetup"
 echo "supervision: $supervision"
-echo "grafana-influx-user: $grafana-influx-user"
-echo "grafana-influx-password: $grafana-influx-password"
+echo "grafana_influx_user: $grafana_influx_user"
+echo "grafana_influx_password: $grafana_influx_password"
 
 # stop the script
 exit 1
