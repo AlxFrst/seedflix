@@ -140,7 +140,7 @@ if [ "$supervision" = true ] ; then
     sudo -u $username sed -i "s/1000/$(getent group docker | cut -d: -f3)/g" /home/$username/seedflix/supervision/.env
     sudo -u $username docker compose -f /home/$username/seedflix/supervision/docker-compose.yml up -d
     else 
-    echo "[SUPERVISION] Pas d'installation ❌]"
+    echo "[SUPERVISION] Pas d'installation ❌"
 fi
 
 
@@ -149,25 +149,26 @@ if [ "$autosetup" = true ] ; then
     echo "[AUTO-SETUP] Installation en cours 👀"
     # Ask for jellyfin user and password
     curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-    sudo apt update -y > /dev/null
-    sudo apt-get install -y nodejs > /dev/null
-    sudo apt-get install -y chromium-browser > /dev/null
-    sudo apt-get install -y libx11-xcb1 libxcomposite1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 > /dev/null
-    sudo -u $username npm install --prefix /home/$username/seedflix/autosetup > /dev/null
-    # Put here multiples sed command to replace the values in the autosetup/index.js file
-    # 
-    # 
-    # 
-    # 
-    # 
+    sudo apt update -y
+    sudo apt-get install -y nodejs
+    sudo apt-get install -y chromium-browser
+    sudo apt-get install -y libx11-xcb1 libxcomposite1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6
+    sudo -u $username npm install --prefix /home/$username/seedflix/autosetup
+    # SED FOR JELLIFIN
+    # SED FOR RADARR
+    # SED FOR SONARR
+    # SED FOR QBITTORRENT
+    # SED FOR JACKETT
     sudo -u $username node /home/$username/seedflix/autosetup/index.js
     else
-    echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌]"
+    echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌"
 fi
-
+echo "----------------------------------------"
 echo "🎉 Installation terminée !"
+echo "----------------------------------------"
 if [ "$autosetup" = true ]; then
 echo "Vous pouvez accéder à vos applications aux adresses suivante:"
+echo "----------------------------------------"
 echo "🔍 Les applications"
 echo "Jellyfin http://localhost:8096"
 # echo "[Jellyfin] Votre nom d'utilisateur est: $jellyfinuser et votre mot de passe est: $jellyfinpassword"
@@ -181,6 +182,7 @@ echo "JellySeerr http://localhost:5055"
 echo "Jackett http://localhost:9117"
 else 
 echo "Vous pouvez accéder à vos applications aux adresses suivante:"
+echo "----------------------------------------"
 echo "🔍 Les applications"
 echo "Jellyfin http://localhost:8096"
 echo "Radarr http://localhost:7878"
@@ -190,8 +192,9 @@ echo "FlareSolverr http://localhost:8191"
 echo "JellySeerr http://localhost:5055"
 echo "Jackett http://localhost:9117"
 fi
+echo "----------------------------------------"
 if [ "$supervision" = true ] ; then
-    echo "🔍 La supervision"
+    echo "👁️ La supervision"
     echo "Grafana http://localhost:3000"
     echo "Username: $grafana_influx_user Password: $grafana_influx_password"
     echo "InfluxDB http://localhost:8086"
