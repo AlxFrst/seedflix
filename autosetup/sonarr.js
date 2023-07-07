@@ -20,12 +20,12 @@ let sonarrUrl = 'http://localhost:8989';
     console.log('[Sonarr] Clé api: ' + sonarrApiKey);
     await sonarrPage.close();
 
-    let keys = JSON.parse(fs.readFileSync('keys.json'));
+    let keys = JSON.parse(fs.readFileSync(process.env.HOME + '/seedflix/autosetup/keys.json'));
     keys.Sonarr = sonarrApiKey;
-    fs.writeFileSync('keys.json', JSON.stringify(keys));
+    fs.writeFileSync(process.env.HOME + '/seedflix/autosetup/keys.json', JSON.stringify(keys));
 
     // Get jackett api key from keys.json
-    keys = JSON.parse(fs.readFileSync('keys.json'));
+    keys = JSON.parse(fs.readFileSync(process.env.HOME + '/seedflix/autosetup/keys.json'));
     let jackettApiKey = keys.Jackett;
     console.log('[Jackett] Clé api: ' + jackettApiKey);
 

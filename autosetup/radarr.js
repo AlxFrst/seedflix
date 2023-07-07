@@ -20,12 +20,12 @@ let radarrUrl = 'http://localhost:7878';
     console.log('[Radarr] Clé api: ' + radarrApiKey);
     await radarrPage.close();
 
-    let keys = JSON.parse(fs.readFileSync('keys.json'));
+    let keys = JSON.parse(fs.readFileSync(process.env.HOME + '/seedflix/autosetup/keys.json'));
     keys.Radarr = radarrApiKey;
-    fs.writeFileSync('keys.json', JSON.stringify(keys));
+    fs.writeFileSync(process.env.HOME + '/seedflix/autosetup/keys.json', JSON.stringify(keys));
 
     // Get jackett api key from keys.json
-    keys = JSON.parse(fs.readFileSync('keys.json'));
+    keys = JSON.parse(fs.readFileSync(process.env.HOME + '/seedflix/autosetup/keys.json'));
     let jackettApiKey = keys.Jackett;
     console.log('[Jackett] Clé api: ' + jackettApiKey);
 

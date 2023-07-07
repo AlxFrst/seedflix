@@ -24,9 +24,9 @@ function delay(time) {
     console.log('[Jackett] Clé api: ' + jackettApiKey);
 
     // add jackett api key in keys.json
-    let keys = JSON.parse(fs.readFileSync('/home/lol/seedflix/autosetup/keys.json'));
+    let keys = JSON.parse(fs.readFileSync(process.env.HOME + '/seedflix/autosetup/keys.json'));
     keys.Jackett = jackettApiKey;
-    fs.writeFileSync('/home/lol/seedflix/autosetup/keys.json', JSON.stringify(keys));
+    fs.writeFileSync(process.env.HOME + '/seedflix/autosetup/keys.json', JSON.stringify(keys));
 
 
     await jackettPage.click('#jackett-add-indexer');

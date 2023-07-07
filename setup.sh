@@ -76,6 +76,8 @@ if [ $supervision = false ]; then
     fi
 fi
 
+# create a HOME variable for the user
+export HOME=/home/$username
 
 # Verify & install docker if not installed
 echo "🔍 Vérification de l'existence de Docker..."
