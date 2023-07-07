@@ -64,7 +64,7 @@ if [ $supervision = false ]; then
         while true; do
             echo "🔒 Veuillez fournir un mot de passe pour l'utilisateur $grafana_influx_user."
             read -p "Mot de passe: " grafana_influx_password
-            if [[ ${#grafana-influx-password} -lt 8 ]]; then
+            if [[ ${#grafana_influx_password} -lt 8 ]]; then
                 echo "❌ Le mot de passe doit contenir au moins 8 caractères."
             else
                 break
