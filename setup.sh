@@ -14,8 +14,8 @@ path="#path#"
 autosetup=false
 # supervision variables
 supervision=false
-grafana-influx-user="#grafana-influx-user#"
-grafana-influx-password="#grafana-influx-password#"
+grafana_influx_user="#grafana_influx_user#"
+grafana_influx_password="#grafana_influx_password#"
 
 
 
