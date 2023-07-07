@@ -75,7 +75,6 @@ if [ $supervision = false ]; then
         supervision=false
     fi
 fi
-fi
 
 # DEBUG
 echo "username: $username"
