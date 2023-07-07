@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
+const fs = require('fs');
+
 
 let sonarrUrl = 'http://localhost:8989';
 
@@ -18,10 +20,14 @@ let sonarrUrl = 'http://localhost:8989';
     console.log('[Sonarr] Clé api: ' + sonarrApiKey);
     await sonarrPage.close();
 
-    const jackettPage = await browser.newPage();
-    await jackettPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
-    await jackettPage.goto(jackettUrl, { waitUntil: 'networkidle2' });
-    let jackettApiKey = await jackettPage.evaluate(() => { return document.querySelector('#api-key-input').value; });
+    let keys = JSON.parse(fs.readFileSync('keys.json'));
+    keys.Sonarr = sonarrApiKey;
+    fs.writeFileSync('keys.json', JSON.stringify(keys));
+
+    // Get jackett api key from keys.json
+    keys = JSON.parse(fs.readFileSync('keys.json'));
+    let jackettApiKey = keys.Jackett;
+    console.log('[Jackett] Clé api: ' + jackettApiKey);
 
     // API CALLS
     const headers = { 'X-Api-Key': sonarrApiKey, 'Content-Type': 'application/json' };

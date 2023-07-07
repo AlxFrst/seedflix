@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 
 let jackettUrl = 'http://localhost:9117';
 
@@ -21,6 +22,12 @@ function delay(time) {
     await jackettPage.goto(jackettUrl, { waitUntil: 'networkidle2' });
     let jackettApiKey = await jackettPage.evaluate(() => { return document.querySelector('#api-key-input').value; });
     console.log('[Jackett] Clé api: ' + jackettApiKey);
+
+    // add jackett api key in keys.json
+    let keys = JSON.parse(fs.readFileSync('keys.json'));
+    keys.Jackett = jackettApiKey;
+    fs.writeFileSync('keys.json', JSON.stringify(keys));
+
 
     await jackettPage.click('#jackett-add-indexer');
     await delay(1000);

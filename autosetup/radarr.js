@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
+const fs = require('fs');
 
 let radarrUrl = 'http://localhost:7878';
 
@@ -19,10 +20,15 @@ let radarrUrl = 'http://localhost:7878';
     console.log('[Radarr] Clé api: ' + radarrApiKey);
     await radarrPage.close();
 
-    const jackettPage = await browser.newPage();
-    await jackettPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
-    await jackettPage.goto(jackettUrl, { waitUntil: 'networkidle2' });
-    let jackettApiKey = await jackettPage.evaluate(() => { return document.querySelector('#api-key-input').value; });
+    let keys = JSON.parse(fs.readFileSync('keys.json'));
+    keys.Radarr = radarrApiKey;
+    fs.writeFileSync('keys.json', JSON.stringify(keys));
+
+    // Get jackett api key from keys.json
+    keys = JSON.parse(fs.readFileSync('keys.json'));
+    let jackettApiKey = keys.Jackett;
+    console.log('[Jackett] Clé api: ' + jackettApiKey);
+
 
     const headers = { 'X-Api-Key': radarrApiKey, 'Content-Type': 'application/json' };
     const qbitData = { "enable": true, "protocol": "torrent", "priority": 1, "removeCompletedDownloads": true, "removeFailedDownloads": true, "name": "Qbittorrent", "fields": [{ "name": "host", "value": "qbittorrent" }, { "name": "port", "value": 8080 }, { "name": "useSsl", "value": false }, { "name": "urlBase" }, { "name": "username", "value": "admin" }, { "name": "password", "value": "adminadmin" }, { "name": "movieCategory", "value": "radarr" }, { "name": "movieImportedCategory" }, { "name": "recentMoviePriority", "value": 0 }, { "name": "olderMoviePriority", "value": 0 }, { "name": "initialState", "value": 0 }, { "name": "sequentialOrder", "value": false }, { "name": "firstAndLast", "value": false }], "implementationName": "qBittorrent", "implementation": "QBittorrent", "configContract": "QBittorrentSettings", "infoLink": "https://wiki.servarr.com/radarr/supported#qbittorrent", "tags": [] };
