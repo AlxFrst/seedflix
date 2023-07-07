@@ -121,8 +121,18 @@ echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml up -d
 
-if ["$supervision" = true ] ; then
+if [ "$supervision" = true ] ; then
     echo "Installation de la supervision en cours..."
+    # Ask for grafana user and password
+    if [ "$grafana_user" = "#grafanauser#" ]; then
+        read -p "Nom d'utilisateur Grafana: " grafana_user
+    fi
+    if [ "$grafana_password" = "#grafanapassword#" ]; then
+        read -p "Mot de passe Grafana: " grafana_password
+    fi
+    # Modify #grafanauser# and #grafanapassword# in /home/$username/seedflix/supervision/grafana/.env
+    sudo -u $username sed -i "s/#grafanauser#/$grafana_user/g" /home/$username/seedflix/supervision/grafana/.env
+    sudo -u $username sed -i "s/#grafanapassword#/$grafana_password/g" /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/1000/$(getent group docker | cut -d: -f3)/g" /home/$username/seedflix/supervision/.env
     token=$(openssl rand -hex 32)
     sudo -u $username sed -i "s/#TOKEN#/$token/g" /home/$username/seedflix/supervision/influxdb/.env
