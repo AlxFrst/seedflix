@@ -124,12 +124,8 @@ sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml 
 if [ "$supervision" = true ] ; then
     echo "Installation de la supervision en cours..."
     # Ask for grafana user and password
-    if [ "$grafana_user" = "#grafanauser#" ]; then
-        read -p "Nom d'utilisateur Grafana: " grafana_user
-    fi
-    if [ "$grafana_password" = "#grafanapassword#" ]; then
-        read -p "Mot de passe Grafana: " grafana_password
-    fi
+    read -p "Nom d'utilisateur Grafana: " grafana_user
+    read -p "Mot de passe Grafana: " grafana_password
     # Modify #grafanauser# and #grafanapassword# in /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanauser#/$grafana_user/g" /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanapassword#/$grafana_password/g" /home/$username/seedflix/supervision/grafana/.env
