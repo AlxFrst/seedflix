@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 
-let sonarrUrl = 'http://192.168.1.210:8989';
+let sonarrUrl = 'http://localhost:8989';
 
 (async () => {
 
@@ -48,7 +48,10 @@ let sonarrUrl = 'http://192.168.1.210:8989';
     await axios.post(sonarrUrl + '/api/v3/releaseprofile', customProfileData, { headers })
         .then(response => console.log("[Sonarr] Profil de release Multi ajouté ✅"))
         .catch(error => console.log("[Sonarr] Erreur lors de l'ajout du profil de release Multi ❌"));
-
+    const rootFolderData = { "path": "/data/tv/" };
+    await axios.post(sonarrUrl + '/api/v3/rootfolder', rootFolderData, { headers })
+        .then(response => console.log("[Sonarr] Dossier de téléchargement ajouté ✅"))
+        .catch(error => console.log("[Sonarr] Erreur lors de l'ajout du dossier de téléchargement ❌"));
 
 
 
