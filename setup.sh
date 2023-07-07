@@ -128,24 +128,15 @@ if [ "$supervision" = true ] ; then
     if [ "$grafanainfluxuser" = "#grafanainfluxuser#" ]; then
         read -p "Nom d'utilisateur Grafana & Influxdb: " grafanainflux_user
     fi
-    while [ "$grafanainfluxpassword" = "#grafanainfluxpassword#" ]; do
-        read -p "Mot de passe Grafana & Influxdb (8 caractères minimum, 1 chiffre minimum, 1 caractère spécial minimum) : " grafanainflux_password
-        
-        if [[ $grafanainflux_password =~ ^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$ ]]; then
-            break
-        else
+    if [ "$grafanainfluxpassword" = "#grafanainfluxpassword#" ]; then
+        read -p "Mot de passe Grafana & Influxdb (8char, 1numb, 1special): " grafanainflux_password
+        # check if the password contains at least 8 characters and minimum 1 number and 1 minimum special character if not ask again while it's not the case
+        while ! [[ $grafanainflux_password =~ ^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$ ]]; do
             echo "Le mot de passe doit contenir au moins 8 caractères, 1 chiffre et 1 caractère spécial."
-        fi
-    done
-
-    # Demander à l'utilisateur de retaper le mot de passe
-    read -p "Confirmez le mot de passe Grafana & Influxdb : " confirm_password
-
-    # Vérifier si le mot de passe confirmé correspond au mot de passe précédent
-    while [ "$grafanainflux_password" != "$confirm_password" ]; do
-        echo "Les mots de passe ne correspondent pas. Veuillez réessayer."
-        read -p "Confirmez le mot de passe Grafana & Influxdb : " confirm_password
-    done
+            read -p "Mot de passe Grafana & Influxdb: " grafanainflux_password
+        done
+    fi
+    
     # Modify #grafanauser# and #grafanapassword# in /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanainfluxuser#/$grafanainflux_user/g" /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanainfluxpassword#/$grafanainflux_password/g" /home/$username/seedflix/supervision/grafana/.env
