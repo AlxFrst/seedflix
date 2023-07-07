@@ -80,7 +80,7 @@ else
     autosetup=false
 fi
 
-echo "🔍 Voulez-vous lancer l'installation de la supervision ? [Work in progress, ne sélectionnez pas 'y' pour le moment]"
+echo "🔍 Voulez-vous lancer l'installation de la supervision ?"
 read -p "y/n: " supervision
 if [[ -z $supervision ]]; then
     supervision=false
@@ -123,10 +123,8 @@ sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml 
 
 if ["$supervision" = true ] ; then
     echo "Installation de la supervision en cours..."
-    # sed the 1000 in /home/$username/supervision/.env par l'id du groupe docker
-    # sudo -u $username sed -i "s/1000/$(getent group docker | cut -d: -f3)/g" /home/$username/supervision/.env
-    # start the docker-compose in /home/$username/supervision
-    # sudo -u $username docker compose -f /home/$username/supervision/docker-compose.yml up -d
+    sudo -u $username sed -i "s/1000/$(getent group docker | cut -d: -f3)/g" /home/$username/seedflix/supervision/.env
+    sudo -u $username docker compose -f /home/$username/seedflix/supervision/docker-compose.yml up -d
 fi
 
 
