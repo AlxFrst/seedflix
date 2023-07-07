@@ -13,7 +13,7 @@ path="#path#"
 # autosetup variables
 autosetup=false
 # supervision variables
-superuser=false
+supervision=false
 grafana-influx-user="#grafana-influx-user#"
 grafana-influx-password="#grafana-influx-password#"
 
