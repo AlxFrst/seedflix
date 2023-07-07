@@ -154,12 +154,16 @@ if [ "$autosetup" = true ] ; then
     sudo apt-get install -y chromium-browser
     sudo apt-get install -y libx11-xcb1 libxcomposite1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6
     sudo -u $username npm install --prefix /home/$username/seedflix/autosetup
-    # SED FOR JELLIFIN
-    # SED FOR RADARR
-    # SED FOR SONARR
-    # SED FOR QBITTORRENT
-    # SED FOR JACKETT
-    sudo -u $username node /home/$username/seedflix/autosetup/index.js
+    # Start jackett.js
+    sudo -u $username node /home/$username/seedflix/autosetup/jackett.js
+    # Start radarr.js
+    sudo -u $username node /home/$username/seedflix/autosetup/radarr.js
+    # Start sonarr.js
+    sudo -u $username node /home/$username/seedflix/autosetup/sonarr.js
+    # Start qbittorrent.js
+    sudo -u $username node /home/$username/seedflix/autosetup/qbittorrent.js
+    # SED FOR JELLYFIN
+    # SED FOR JELLISEERR
     else
     echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌"
 fi
