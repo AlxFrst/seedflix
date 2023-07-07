@@ -125,13 +125,27 @@ sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml 
 
 if [ "$supervision" = true ] ; then
     echo "Installation de la supervision en cours..."
-    # Ask for grafana user and password
     if [ "$grafanainfluxuser" = "#grafanainfluxuser#" ]; then
         read -p "Nom d'utilisateur Grafana & Influxdb: " grafanainflux_user
     fi
-    if [ "$grafanainfluxpassword" = "#grafanainfluxpassword#" ]; then
-        read -p "Mot de passe Grafana & Influxdb: " grafanainflux_password
-    fi
+    while [ "$grafanainfluxpassword" = "#grafanainfluxpassword#" ]; do
+        read -p "Mot de passe Grafana & Influxdb (8 caractères minimum, 1 chiffre minimum, 1 caractère spécial minimum) : " grafanainflux_password
+        
+        if [[ $grafanainflux_password =~ ^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$ ]]; then
+            break
+        else
+            echo "Le mot de passe doit contenir au moins 8 caractères, 1 chiffre et 1 caractère spécial."
+        fi
+    done
+
+    # Demander à l'utilisateur de retaper le mot de passe
+    read -p "Confirmez le mot de passe Grafana & Influxdb : " confirm_password
+
+    # Vérifier si le mot de passe confirmé correspond au mot de passe précédent
+    while [ "$grafanainflux_password" != "$confirm_password" ]; do
+        echo "Les mots de passe ne correspondent pas. Veuillez réessayer."
+        read -p "Confirmez le mot de passe Grafana & Influxdb : " confirm_password
+    done
     # Modify #grafanauser# and #grafanapassword# in /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanainfluxuser#/$grafanainflux_user/g" /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanainfluxpassword#/$grafanainflux_password/g" /home/$username/seedflix/supervision/grafana/.env
@@ -175,3 +189,8 @@ echo "qBittorrent http://localhost:8080"
 echo "FlareSolverr http://localhost:8191"
 echo "JellySeerr http://localhost:5055"
 echo "Jackett http://localhost:9117"
+if [ "$supervision" = true ] ; then
+    echo "🔍 La supervision"
+    echo "Grafana http://localhost:3000"
+    echo "InfluxDB http://localhost:8086"
+fi
