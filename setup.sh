@@ -126,10 +126,10 @@ sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml 
 if [ "$supervision" = true ] ; then
     echo "Installation de la supervision en cours..."
     # Ask for grafana user and password
-    if [ "$grafanainflux_user" = "#grafanainfluxuser#" ]; then
+    if [ "$grafanainfluxuser" = "#grafanainfluxuser#" ]; then
         read -p "Nom d'utilisateur Grafana & Influxdb: " grafanainflux_user
     fi
-    if [ "$grafanainflux_password" = "#grafanainfluxpassword#" ]; then
+    if [ "$grafanainfluxpassword" = "#grafanainfluxpassword#" ]; then
         read -p "Mot de passe Grafana & Influxdb: " grafanainflux_password
     fi
     # Modify #grafanauser# and #grafanapassword# in /home/$username/seedflix/supervision/grafana/.env
