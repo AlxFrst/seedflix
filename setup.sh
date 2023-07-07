@@ -13,6 +13,49 @@ path="#path#"
 autosetup=false
 superuser=false
 
+# User creation
+echo "🌱🎬 Démarrage de l'installation de Seedflix !"
+if [ "$username" = "#username#" ]; then
+    echo "🙎‍♂️ Création d'un utilisateur pour Seedflix. Veuillez fournir un nom d'utilisateur et un mot de passe."
+    read -p "Nom d'utilisateur: " username
+    else
+    echo "🙎‍♂️ Création d'un utilisateur pour Seedflix. Veuillez fournir un mot de passe pour l'utilisateur $username."
+fi
+if [ "$password" = "#userpassword#" ]; then
+    echo "🔒 Veuillez fournir un mot de passe pour l'utilisateur $username."
+    read -p "Mot de passe: " password
+    echo "🔒 Création de l'utilisateur $username avec le mot de passe $password."
+fi
+if [ "$path" = "#path#" ]; then
+    echo "📁 Veuillez fournir le chemin absolu du dossier de téléchargement (ex: /data ou /media)."
+    read -p "Chemin: " path
+    echo "📁 Création des dossiers nécessaires à Seedflix dans $path."
+fi
+if [ $autosetup = false ]; then
+    echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ?"
+    read -p "y/n: " autosetup
+    if [[ -z $autosetup ]]; then
+        autosetup=false
+    elif [[ "$autosetup" = "y" ]]; then
+        autosetup=true
+    else
+        autosetup=false
+    fi
+fi
+if [ $supervision = false ]; then
+    echo "🔍 Voulez-vous lancer l'installation de la supervision ?"
+    read -p "y/n: " supervision
+    if [[ -z $supervision ]]; then
+        supervision=false
+    elif [[ "$supervision" = "y" ]]; then
+        supervision=true
+    else
+        supervision=false
+    fi
+fi
+fi
+
+# Verify & install docker if not installed
 echo "🔍 Vérification de l'existence de Docker..."
 if ! command -v docker &> /dev/null; then
 echo "❌ Docker n'est pas installé. Installation en cours..."
@@ -29,6 +72,7 @@ else
 echo "✅ Docker est déjà installé"
 fi
 
+# Verify & install docker compose if not installed
 echo "🔍 Vérification de l'existence de Docker Compose..."
 if ! command docker compose version &> /dev/null; then
 echo "❌ Docker Compose n'est pas installé. Installation en cours..."
@@ -40,75 +84,23 @@ fi
 
 echo "🌱🎬 Installation de Seedflix en cours..."
 sudo apt install curl software-properties-common -y
-
-echo "💡 Création d'un utilisateur pour Seedflix. Veuillez fournir un nom d'utilisateur et un mot de passe."
-if [ "$username" = "#username#" ]; then
-    read -p "Nom d'utilisateur: " username
-fi
-if [ "$password" = "#userpassword#" ]; then
-    read -p "Mot de passe: " password
-fi
-
 sudo useradd -m -p $(openssl passwd -1 $password) $username
 sudo usermod -aG docker $username
-echo "✅ Utilisateur $username créé avec succès !"
-
-echo "💡 Création des dossiers nécessaires à Seedflix."
-while true; do
-    read -p "Veuillez fournir le chemin absolu du dossier de téléchargement (ex: /data ou /media): " path
-
-    if [[ -z $path ]]; then
-        path="/data"
-        echo "Aucun chemin fourni. La valeur par défaut '/data' sera utilisée."
-        break
-    elif [[ $path == /* ]]; then
-        break
-    else
-        echo "Veuillez fournir un chemin absolu commençant par '/'"
-    fi
-done
-
-# Ask user if he want auto setup y/n if yes set autosetup to true
-echo "🔍 Voulez-vous lancer l'installation automatique des apps Seedflix ? [Work in progress, ne sélectionnez pas 'y' pour le moment]"
-read -p "y/n: " autosetup
-
-if [[ -z $autosetup ]]; then
-    autosetup=false
-elif [[ "$autosetup" = "y" ]]; then
-    autosetup=true
-else
-    autosetup=false
-fi
-
-echo "🔍 Voulez-vous lancer l'installation de la supervision ?"
-read -p "y/n: " supervision
-if [[ -z $supervision ]]; then
-    supervision=false
-elif [[ "$supervision" = "y" ]]; then
-    supervision=true
-else
-    supervision=false
-fi
-
 sudo mkdir -p $path/torrents $path/movies $path/tv $path/downloads
 sudo chown -R $username:$username $path/torrents $path/movies $path/tv $path/downloads
 echo "✅ Dossiers créés avec succès !"
-
 echo "💡 Clonage du dépôt Git de Seedflix dans le dossier de l'utilisateur."
 sudo -u $username git clone https://github.com/AlxFrst/seedflix.git /home/$username/seedflix
 sudo chown -R $username:$username /home/$username/seedflix
 echo "✅ Dépôt cloné avec succès !"
-
 echo "💡 Création du fichier .env de Seedflix."
 echo "PUID=$(id -u $username)" | sudo tee -a /home/$username/seedflix/.env > /dev/null
 echo "PGID=$(id -g $username)" | sudo tee -a /home/$username/seedflix/.env > /dev/null
 echo "PATH_MEDIA=$path" | sudo tee -a /home/$username/seedflix/.env > /dev/null
 echo "✅ Fichier .env créé avec succès !"
-
 echo "🔍 Vérification de l'existence de la tâche cron"
 task="1 * * * /usr/bin/sync; echo 1 > /proc/sys/vm/drop_caches /usr/bin/sync; echo 3 > /proc/sys/vm/drop_caches"
 crontab_file="/etc/crontab"
-
 if grep -qF "$task" "$crontab_file"; then
 echo "✅ La tâche cron existe déjà dans le fichier crontab."
 else
@@ -116,11 +108,11 @@ echo "❌ La tâche cron n'existe pas dans le fichier crontab. Ajout en cours...
 sudo bash -c "echo '$task' >> $crontab_file"
 echo "✅ La tâche cron a été ajoutée avec succès dans le fichier crontab."
 fi
-
 echo "🎉 Installation terminée !"
 echo "🌱🎬 Lancement de Seedflix..."
 sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml up -d
 
+# Supervision installation
 if [ "$supervision" = true ] ; then
     echo "Installation de la supervision en cours..."
     sudo -u $username sed -i "s/1000/$(getent group docker | cut -d: -f3)/g" /home/$username/seedflix/supervision/.env
@@ -128,7 +120,7 @@ if [ "$supervision" = true ] ; then
 fi
 
 
-# if autosetup is true then run the nodejs script
+# Services apps installation
 if [ "$autosetup" = true ] ; then
     echo "🔍 Lancement de l'installation automatique des services Seedflix..."
     # Ask for jellyfin user and password
