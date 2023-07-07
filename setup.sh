@@ -86,6 +86,9 @@ echo "supervision: $supervision"
 echo "grafana-influx-user: $grafana-influx-user"
 echo "grafana-influx-password: $grafana-influx-password"
 
+# stop the script
+exit 1
+
 
 # Verify & install docker if not installed
 echo "🔍 Vérification de l'existence de Docker..."
