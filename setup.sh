@@ -124,13 +124,16 @@ sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml 
 if ["$supervision" = true ] ; then
     echo "Installation de la supervision en cours..."
     sudo -u $username sed -i "s/1000/$(getent group docker | cut -d: -f3)/g" /home/$username/seedflix/supervision/.env
+    token=$(openssl rand -hex 32)
+    sudo -u $username sed -i "s/#TOKEN#/$token/g" /home/$username/seedflix/supervision/influxdb/.env
     sudo -u $username docker compose -f /home/$username/seedflix/supervision/docker-compose.yml up -d
 fi
 
 
 # if autosetup is true then run the nodejs script
 if [ "$autosetup" = true ] ; then
-    echo "🔍 Lancement de l'installation automatique de Seedflix..."
+    echo "🔍 Lancement de l'installation automatique des services Seedflix..."
+    # Ask for jellyfin user and password
     curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
     sudo apt update -y > /dev/null
     sudo apt-get install -y nodejs > /dev/null
