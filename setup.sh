@@ -10,8 +10,14 @@ echo "███████ ███████ ███████ ██�
 username="#username#"
 password="#userpassword#"
 path="#path#"
+# autosetup variables
 autosetup=false
+# supervision variables
 superuser=false
+grafana-influx-user="#grafana-influx-user#"
+grafana-influx-password="#grafana-influx-password#"
+
+
 
 # User creation
 echo "🌱🎬 Démarrage de l'installation de Seedflix !"
@@ -49,6 +55,22 @@ if [ $supervision = false ]; then
         supervision=false
     elif [[ "$supervision" = "y" ]]; then
         supervision=true
+        if [ "$grafana-influx-user" = "#grafana-influx-user#" ]; then
+            echo "🙎‍♂️ Veuillez fournir un nom d'utilisateur pour Grafana et InfluxDB."
+            read -p "Nom d'utilisateur: " grafana-influx-user
+        fi
+        if [ "$grafana-influx-password" = "#grafana-influx-password#" ]; then
+        # we need to be sure the password contains at least 8 characters if not we ask again
+        while true; do
+            echo "🔒 Veuillez fournir un mot de passe pour l'utilisateur $grafana-influx-user."
+            read -p "Mot de passe: " grafana-influx-password
+            if [[ ${#grafana-influx-password} -lt 8 ]]; then
+                echo "❌ Le mot de passe doit contenir au moins 8 caractères."
+            else
+                break
+            fi
+        done
+        fi
     else
         supervision=false
     fi
@@ -114,15 +136,17 @@ sudo -u $username docker compose -f /home/$username/seedflix/docker-compose.yml 
 
 # Supervision installation
 if [ "$supervision" = true ] ; then
-    echo "Installation de la supervision en cours..."
+    echo "[SUPVERVISION] Installation en cours 👀"
     sudo -u $username sed -i "s/1000/$(getent group docker | cut -d: -f3)/g" /home/$username/seedflix/supervision/.env
     sudo -u $username docker compose -f /home/$username/seedflix/supervision/docker-compose.yml up -d
+    else 
+    echo "[SUPERVISION] Pas d'installation ❌]"
 fi
 
 
 # Services apps installation
 if [ "$autosetup" = true ] ; then
-    echo "🔍 Lancement de l'installation automatique des services Seedflix..."
+    echo "[AUTO-SETUP] Installation en cours 👀"
     # Ask for jellyfin user and password
     curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
     sudo apt update -y > /dev/null
@@ -138,7 +162,7 @@ if [ "$autosetup" = true ] ; then
     # 
     sudo -u $username node /home/$username/seedflix/autosetup/index.js
     else
-    echo "Pas d'installation automatique de Seedflix."
+    echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌]"
 fi
 
 echo "🎉 Installation terminée !"
