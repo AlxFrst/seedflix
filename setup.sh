@@ -129,14 +129,8 @@ if [ "$supervision" = true ] ; then
         read -p "Nom d'utilisateur Grafana & Influxdb: " grafanainflux_user
     fi
     if [ "$grafanainfluxpassword" = "#grafanainfluxpassword#" ]; then
-        read -p "Mot de passe Grafana & Influxdb (8char, 1numb, 1special): " grafanainflux_password
-        # check if the password contains at least 8 characters and minimum 1 number and 1 minimum special character if not ask again while it's not the case
-        while ! [[ $grafanainflux_password =~ ^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[A-Za-z0-9!@#$%^&*()_+]{8,}$ ]]; do
-            echo "Le mot de passe doit contenir au moins 8 caractères, 1 chiffre et 1 caractère spécial."
-            read -p "Mot de passe Grafana & Influxdb: " grafanainflux_password
-        done
+        read -p "Mot de passe Grafana & Influxdb: " grafanainflux_password
     fi
-    
     # Modify #grafanauser# and #grafanapassword# in /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanainfluxuser#/$grafanainflux_user/g" /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanainfluxpassword#/$grafanainflux_password/g" /home/$username/seedflix/supervision/grafana/.env
