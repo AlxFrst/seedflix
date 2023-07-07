@@ -76,18 +76,6 @@ if [ $supervision = false ]; then
     fi
 fi
 
-# DEBUG
-echo "username: $username"
-echo "password: $password"
-echo "path: $path"
-echo "autosetup: $autosetup"
-echo "supervision: $supervision"
-echo "grafana_influx_user: $grafana_influx_user"
-echo "grafana_influx_password: $grafana_influx_password"
-
-# stop the script
-exit 1
-
 
 # Verify & install docker if not installed
 echo "🔍 Vérification de l'existence de Docker..."
@@ -178,6 +166,20 @@ if [ "$autosetup" = true ] ; then
 fi
 
 echo "🎉 Installation terminée !"
+if [ "$autosetup" = true ]; then
+echo "Vous pouvez accéder à vos applications aux adresses suivante:"
+echo "🔍 Les applications"
+echo "Jellyfin http://localhost:8096"
+# echo "[Jellyfin] Votre nom d'utilisateur est: $jellyfinuser et votre mot de passe est: $jellyfinpassword"
+echo "Radarr http://localhost:7878"
+echo "Sonarr http://localhost:8989"
+echo "qBittorrent http://localhost:8080"
+# echo "[qBittorrent] Votre nom d'utilisateur est: admin et votre mot de passe est: adminadmin"
+echo "FlareSolverr http://localhost:8191"
+echo "JellySeerr http://localhost:5055"
+# echo "[JellySeerr] Vos identifiants sont identiques à ceux de Jellyfin"
+echo "Jackett http://localhost:9117"
+else 
 echo "Vous pouvez accéder à vos applications aux adresses suivante:"
 echo "🔍 Les applications"
 echo "Jellyfin http://localhost:8096"
@@ -187,8 +189,11 @@ echo "qBittorrent http://localhost:8080"
 echo "FlareSolverr http://localhost:8191"
 echo "JellySeerr http://localhost:5055"
 echo "Jackett http://localhost:9117"
+fi
 if [ "$supervision" = true ] ; then
     echo "🔍 La supervision"
     echo "Grafana http://localhost:3000"
+    echo "Username: $grafana_influx_user Password: $grafana_influx_password"
     echo "InfluxDB http://localhost:8086"
+    echo "Username: $grafana_influx_user Password: $grafana_influx_password"
 fi
