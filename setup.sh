@@ -135,8 +135,8 @@ if [ "$supervision" = true ] ; then
     # Modify #grafanauser# and #grafanapassword# in /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanainfluxuser#/$grafanainflux_user/g" /home/$username/seedflix/supervision/grafana/.env
     sudo -u $username sed -i "s/#grafanainfluxpassword#/$grafanainflux_password/g" /home/$username/seedflix/supervision/grafana/.env
-    sudo -u $username sed -i "s/#grafanainfluxuser#/$grafanainflux_user/g" /home/$username/seedflix/supervision/influx/.env
-    sudo -u $username sed -i "s/#grafanainfluxpassword#/$grafanainflux_password/g" /home/$username/seedflix/supervision/influx/.env
+    sudo -u $username sed -i "s/#grafanainfluxuser#/$grafanainflux_user/g" /home/$username/seedflix/supervision/influxdb/.env
+    sudo -u $username sed -i "s/#grafanainfluxpassword#/$grafanainflux_password/g" /home/$username/seedflix/supervision/influxdb/.env
     sudo -u $username sed -i "s/1000/$(getent group docker | cut -d: -f3)/g" /home/$username/seedflix/supervision/.env
     token=$(openssl rand -base64 32)
     sudo -u $username sed -i "s/#TOKEN#/$token/g" /home/$username/seedflix/supervision/influxdb/.env
