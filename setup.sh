@@ -55,15 +55,15 @@ if [ $supervision = false ]; then
         supervision=false
     elif [[ "$supervision" = "y" ]]; then
         supervision=true
-        if [ "$grafana-influx-user" = "#grafana-influx-user#" ]; then
+        if [ "$grafana_influx_user" = "#grafana_influx_user#" ]; then
             echo "🙎‍♂️ Veuillez fournir un nom d'utilisateur pour Grafana et InfluxDB."
-            read -p "Nom d'utilisateur: " grafana-influx-user
+            read -p "Nom d'utilisateur: " grafana_influx_user
         fi
-        if [ "$grafana-influx-password" = "#grafana-influx-password#" ]; then
+        if [ "$grafana_influx_password" = "#grafana_influx_password#" ]; then
         # we need to be sure the password contains at least 8 characters if not we ask again
         while true; do
-            echo "🔒 Veuillez fournir un mot de passe pour l'utilisateur $grafana-influx-user."
-            read -p "Mot de passe: " grafana-influx-password
+            echo "🔒 Veuillez fournir un mot de passe pour l'utilisateur $grafana_influx_user."
+            read -p "Mot de passe: " grafana_influx_password
             if [[ ${#grafana-influx-password} -lt 8 ]]; then
                 echo "❌ Le mot de passe doit contenir au moins 8 caractères."
             else
