@@ -186,7 +186,8 @@ if [ "$autosetup" = true ] ; then
     sudo -u $username node /home/$username/seedflix/autosetup/radarr.js && \
     sudo -u $username node /home/$username/seedflix/autosetup/sonarr.js && \
     sudo -u $username node /home/$username/seedflix/autosetup/qbittorrent.js && \
-    sudo -u $username node /home/$username/seedflix/autosetup/jellyfin.js
+    sudo -u $username node /home/$username/seedflix/autosetup/jellyfin.js && \
+    sudo -u $username node /home/$username/seedflix/autosetup/jellyseer.js
     else
     echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌"
 fi
