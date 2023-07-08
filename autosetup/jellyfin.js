@@ -130,7 +130,7 @@ function delay(time) {
     await jellyfinPage.waitForSelector('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
     await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
 
-
-
+    await jellyfinPage.close();
+    await browser.close();
 
 })();
