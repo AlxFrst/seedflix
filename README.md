@@ -45,3 +45,6 @@ git clone https://github.com/AlxFrst/seedflix.git && cd seedflix && chmod +x set
 - **qBittorrent** : http://localhost:8080
 - **FlareSolverr** : http://localhost:8191
 - **Jellyseerr** : http://localhost:5055
+
+## Testé sur 🧪
+Ubuntu 20.04 LTS (Focal Fossa) amd64 ✅

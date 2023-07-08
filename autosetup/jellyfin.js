@@ -49,6 +49,7 @@ function delay(time) {
     await jellyfinPage.type('#txtPasswordConfirm', jellyfinPassword);
     await jellyfinPage.waitForSelector('#wizardUserPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button');
     await jellyfinPage.click('#wizardUserPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button');
+    await delay(5000);
 
     await jellyfinPage.waitForSelector('#addLibrary > div > div.cardScalable.visualCardBox-cardScalable > div.cardContent > div');
     await jellyfinPage.click('#addLibrary > div > div.cardScalable.visualCardBox-cardScalable > div.cardContent > div');
