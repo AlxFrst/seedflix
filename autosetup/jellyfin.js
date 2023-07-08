@@ -16,6 +16,12 @@ function delay(time) {
     let jellyfinPassword = '#password#'; // SED THIS BEFORE RUNNING
     let path = '#path#'; // NEED TO SED THIS BEFORE RUNNING
 
+    // debug
+    // jellyfinUrl = 'http://192.168.1.xxxx:8096';
+    // jellyfinUsername = 'admin';
+    // jellyfinPassword = 'adminadmin';
+    // path = '/data';
+
     const jellyfinPage = await browser.newPage();
     await jellyfinPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
     await jellyfinPage.goto(jellyfinUrl, { waitUntil: 'networkidle2' });
@@ -24,6 +30,8 @@ function delay(time) {
     await jellyfinPage.waitForSelector('#wizardStartPage > div > div > form > div.wizardNavigation > button');
     await jellyfinPage.click('#wizardStartPage > div > div > form > div.wizardNavigation > button');
     console.log('[Jellyfin] Langue changée en français');
+    await delay(6000);
+
 
     await jellyfinPage.waitForSelector('#txtUsername');
     await jellyfinPage.click('#txtUsername');
@@ -49,9 +57,8 @@ function delay(time) {
     await jellyfinPage.type('#txtPasswordConfirm', jellyfinPassword);
     await jellyfinPage.waitForSelector('#wizardUserPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button');
     await jellyfinPage.click('#wizardUserPage > div > div > form > div.wizardNavigation > button.raised.button-submit.emby-button');
-    await delay(5000);
+    await delay(6000);
 
-    await jellyfinPage.waitForSelector('#addLibrary > div > div.cardScalable.visualCardBox-cardScalable > div.cardContent > div');
     await jellyfinPage.click('#addLibrary > div > div.cardScalable.visualCardBox-cardScalable > div.cardContent > div');
     await jellyfinPage.waitForSelector('#selectCollectionType');
     await jellyfinPage.select('#selectCollectionType', 'movies');
@@ -69,7 +76,7 @@ function delay(time) {
     await jellyfinPage.waitForSelector('body > div.dialogContainer > div > div.formDialogContent.scrollY > div > div.folders > div:nth-child(1) > button');
     await jellyfinPage.click('body > div.dialogContainer > div > div.formDialogContent.scrollY > div > div.folders > div:nth-child(1) > button');
     await jellyfinPage.waitForSelector('#txtDirectoryPickerPath');
-    await delay(3000);
+    await delay(6000);
     await jellyfinPage.click('#txtDirectoryPickerPath');
     await jellyfinPage.keyboard.down('Control');
     await jellyfinPage.keyboard.press('A');
@@ -78,12 +85,12 @@ function delay(time) {
     await jellyfinPage.type('#txtDirectoryPickerPath', path + '/movies');
     await jellyfinPage.waitForSelector('body > div:nth-child(15) > div > div.formDialogContent.scrollY > div > form > div.formDialogFooter > button');
     await jellyfinPage.click('body > div:nth-child(15) > div > div.formDialogContent.scrollY > div > form > div.formDialogFooter > button');
-    await delay(3000);
+    await delay(6000);
     await jellyfinPage.waitForSelector('body > div.dialogContainer > div > div.formDialogFooter > button');
     await jellyfinPage.click('body > div.dialogContainer > div > div.formDialogFooter > button');
-    await delay(3000);
+    await delay(6000);
 
-    await jellyfinPage.waitForSelector('#addLibrary > div > div.cardScalable.visualCardBox-cardScalable > div.cardContent > div');
+
     await jellyfinPage.click('#addLibrary > div > div.cardScalable.visualCardBox-cardScalable > div.cardContent > div');
     await jellyfinPage.waitForSelector('#selectCollectionType');
     await jellyfinPage.select('#selectCollectionType', 'tvshows');
@@ -100,7 +107,7 @@ function delay(time) {
     await jellyfinPage.select('#selectCountry', 'FR');
     await jellyfinPage.waitForSelector('body > div.dialogContainer > div > div.formDialogContent.scrollY > div > div.folders > div:nth-child(1) > button');
     await jellyfinPage.click('body > div.dialogContainer > div > div.formDialogContent.scrollY > div > div.folders > div:nth-child(1) > button');
-    await delay(3000);
+    await delay(6000);
     await jellyfinPage.waitForSelector('#txtDirectoryPickerPath');
     await jellyfinPage.click('#txtDirectoryPickerPath');
     await jellyfinPage.keyboard.down('Control');
@@ -110,10 +117,10 @@ function delay(time) {
     await jellyfinPage.type('#txtDirectoryPickerPath', path + '/tv');
     await jellyfinPage.waitForSelector('body > div:nth-child(15) > div > div.formDialogContent.scrollY > div > form > div.formDialogFooter > button');
     await jellyfinPage.click('body > div:nth-child(15) > div > div.formDialogContent.scrollY > div > form > div.formDialogFooter > button');
-    await delay(3000);
+    await delay(6000);
     await jellyfinPage.waitForSelector('body > div.dialogContainer > div > div.formDialogFooter > button');
     await jellyfinPage.click('body > div.dialogContainer > div > div.formDialogFooter > button');
-    await delay(3000);
+    await delay(6000);
     await jellyfinPage.waitForSelector('#wizardLibraryPage > div > div > div.wizardNavigation > button.raised.button-submit.emby-button');
     await jellyfinPage.click('#wizardLibraryPage > div > div > div.wizardNavigation > button.raised.button-submit.emby-button');
 
@@ -128,10 +135,10 @@ function delay(time) {
 
     const elements = await jellyfinPage.$$("#wizardSettingsPage>div>div>form>div.wizardNavigation>button.raised.button-submit.emby-button"); if (elements.length > 1) { await elements[1].click(); console.log("Clic effectué sur le deuxième élément."); } else { console.log("Deuxième élément non trouvé."); }
 
-    await jellyfinPage.waitForSelector('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
-    await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
+    // await jellyfinPage.waitForSelector('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
+    // await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
 
-    await jellyfinPage.close();
-    await browser.close();
+    // await jellyfinPage.close();
+    // await browser.close();
 
 })();

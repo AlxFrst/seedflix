@@ -86,6 +86,10 @@ if [ $supervision = false ]; then
     fi
 fi
 
+echo "L'installation va commencer dans 10 secondes, profitez-en pour vous servir un café ☕"
+# create a countdown
+
+
 # create a HOME variable for the user
 export HOME=/home/$username
 
