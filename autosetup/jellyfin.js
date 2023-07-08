@@ -14,7 +14,7 @@ function delay(time) {
     const browser = await puppeteer.launch({ headless: false });
     let jellyfinUsername = '#username#'; // SED THIS BEFORE RUNNING
     let jellyfinPassword = '#password#'; // SED THIS BEFORE RUNNING
-    let path = '/data'; // NEED TO SED THIS BEFORE RUNNING
+    let path = '#path#'; // NEED TO SED THIS BEFORE RUNNING
 
     const jellyfinPage = await browser.newPage();
     await jellyfinPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
