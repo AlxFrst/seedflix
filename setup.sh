@@ -44,6 +44,8 @@ if [ $autosetup = false ]; then
     read -p "y/n: " autosetup
     if [[ -z $autosetup ]]; then
         autosetup=false
+    elif [[ "$autosetup" = "y" ]]; then
+        autosetup=true
         if [ "$jellyfinuser" = "#jellyfinuser#" ]; then
             echo "🙎‍♂️ Veuillez fournir un nom d'utilisateur pour Jellyfin."
             read -p "Nom d'utilisateur: " jellyfinuser
@@ -52,8 +54,6 @@ if [ $autosetup = false ]; then
             echo "🔒 Veuillez fournir un mot de passe pour l'utilisateur $jellyfinuser."
             read -p "Mot de passe: " jellyfinpassword
         fi
-    elif [[ "$autosetup" = "y" ]]; then
-        autosetup=true
     else
         autosetup=false
     fi
