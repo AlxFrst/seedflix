@@ -30,7 +30,7 @@ function delay(time) {
 
 
     await jackettPage.click('#jackett-add-indexer');
-    await delay(3000);
+    await delay(10000);
     for (indexer of jacketIndexers) {
         await jackettPage.click('#select' + indexer.toLowerCase());
         await delay(3000);
