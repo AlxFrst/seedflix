@@ -2,7 +2,6 @@ const puppeteer = require('puppeteer');
 const axios = require('axios');
 const fs = require('fs');
 
-
 let sonarrUrl = 'http://localhost:8989';
 
 (async () => {

@@ -12,6 +12,8 @@ password="#userpassword#"
 path="#path#"
 # autosetup variables
 autosetup=false
+jellyfinuser="#jellyfinuser#"
+jellyfinpassword="#jellyfinpassword#"
 # supervision variables
 supervision=false
 grafana_influx_user="#grafana_influx_user#"
@@ -42,6 +44,14 @@ if [ $autosetup = false ]; then
     read -p "y/n: " autosetup
     if [[ -z $autosetup ]]; then
         autosetup=false
+        if [ "$jellyfinuser" = "#jellyfinuser#" ]; then
+            echo "🙎‍♂️ Veuillez fournir un nom d'utilisateur pour Jellyfin."
+            read -p "Nom d'utilisateur: " jellyfinuser
+        fi
+        if [ "$jellyfinpassword" = "#jellyfinpassword#" ]; then
+            echo "🔒 Veuillez fournir un mot de passe pour l'utilisateur $jellyfinuser."
+            read -p "Mot de passe: " jellyfinpassword
+        fi
     elif [[ "$autosetup" = "y" ]]; then
         autosetup=true
     else
@@ -158,13 +168,16 @@ if [ "$autosetup" = true ] ; then
     sudo -u $username npm install --prefix /home/$username/seedflix/autosetup
     # keys.json need to be readeable by all js files
     sudo chmod 777 /home/$username/seedflix/autosetup/keys.json
+    # SED FOR ALL FILES
+    # change #username# to $jellyfinuser in jellyfin.js
+    sudo sed -i "s/#username#/$jellyfinuser/g" /home/$username/seedflix/autosetup/jellyfin.js
+    sudo sed -i "s/#password#/$jellyfinpassword/g" /home/$username/seedflix/autosetup/jellyfin.js
+
     sudo -u $username node /home/$username/seedflix/autosetup/jackett.js && \
     sudo -u $username node /home/$username/seedflix/autosetup/radarr.js && \
     sudo -u $username node /home/$username/seedflix/autosetup/sonarr.js && \
-    sudo -u $username node /home/$username/seedflix/autosetup/qbittorrent.js
-
-    # SED FOR JELLYFIN
-    # SED FOR JELLISEERR
+    sudo -u $username node /home/$username/seedflix/autosetup/qbittorrent.js && \
+    sudo -u $username node /home/$username/seedflix/autosetup/jellyfin.js
     else
     echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌"
 fi
@@ -176,14 +189,14 @@ echo "Vous pouvez accéder à vos applications aux adresses suivante:"
 echo "----------------------------------------"
 echo "🔍 Les applications"
 echo "Jellyfin http://localhost:8096"
-# echo "[Jellyfin] Votre nom d'utilisateur est: $jellyfinuser et votre mot de passe est: $jellyfinpassword"
+echo "[Jellyfin] Votre nom d'utilisateur est: $jellyfinuser et votre mot de passe est: $jellyfinpassword"
 echo "Radarr http://localhost:7878"
 echo "Sonarr http://localhost:8989"
 echo "qBittorrent http://localhost:8080"
-# echo "[qBittorrent] Votre nom d'utilisateur est: admin et votre mot de passe est: adminadmin"
+echo "[qBittorrent] Votre nom d'utilisateur est: admin et votre mot de passe est: adminadmin"
 echo "FlareSolverr http://localhost:8191"
 echo "JellySeerr http://localhost:5055"
-# echo "[JellySeerr] Vos identifiants sont identiques à ceux de Jellyfin"
+echo "[JellySeerr] Vos identifiants sont identiques à ceux de Jellyfin"
 echo "Jackett http://localhost:9117"
 else 
 echo "Vous pouvez accéder à vos applications aux adresses suivante:"
