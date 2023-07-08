@@ -30,13 +30,13 @@ function delay(time) {
 
 
     await jackettPage.click('#jackett-add-indexer');
-    await delay(1000);
+    await delay(3000);
     for (indexer of jacketIndexers) {
         await jackettPage.click('#select' + indexer.toLowerCase());
-        await delay(1000);
+        await delay(3000);
     }
     await jackettPage.click('#add-selected-indexers');
-    await delay(1000);
+    await delay(3000);
     await jackettPage.reload({ waitUntil: 'networkidle2' });
     await jackettPage.waitForSelector('#jackett-add-indexer')
     await jackettPage.click('#jackett-test-all');
