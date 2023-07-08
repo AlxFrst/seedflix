@@ -135,10 +135,10 @@ function delay(time) {
 
     const elements = await jellyfinPage.$$("#wizardSettingsPage>div>div>form>div.wizardNavigation>button.raised.button-submit.emby-button"); if (elements.length > 1) { await elements[1].click(); console.log("Clic effectué sur le deuxième élément."); } else { console.log("Deuxième élément non trouvé."); }
 
-    // await jellyfinPage.waitForSelector('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
-    // await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
+    await jellyfinPage.waitForSelector('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
+    await jellyfinPage.click('#wizardFinishPage > div > div > div > button.raised.btnWizardNext.button-submit.emby-button');
 
-    // await jellyfinPage.close();
-    // await browser.close();
+    await jellyfinPage.close();
+    await browser.close();
 
 })();
