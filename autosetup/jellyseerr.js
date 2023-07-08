@@ -80,15 +80,15 @@ function delay(time) {
     await jellyseer.goto(jellyseerrUrl + '/settings', { waitUntil: 'networkidle2' });
     let apikey = await jellyseer.evaluate(() => document.querySelector('#apiKey').value);
     console.log('[Jellyseer] Clé api: ' + apikey);
-    let keys = JSON.parse(fs.readFileSync('./keys.json'));
+    let keys = JSON.parse(fs.readFileSync(process.env.HOME + '/seedflix/autosetup/keys.json'));
     keys.Jellyseer = apikey;
-    fs.writeFileSync('./keys.json', JSON.stringify(keys));
+    fs.writeFileSync(process.env.HOME + '/seedflix/autosetup/keys.json', JSON.stringify(keys));
 
-    keys = JSON.parse(fs.readFileSync('./keys.json'));
+    keys = JSON.parse(fs.readFileSync(process.env.HOME + '/seedflix/autosetup/keys.json'));
     let RadarrApiKey = keys.Radarr;
     console.log('[Radarr] Clé api: ' + RadarrApiKey);
 
-    keys = JSON.parse(fs.readFileSync('./keys.json'));
+    keys = JSON.parse(fs.readFileSync(process.env.HOME + '/seedflix/autosetup/keys.json'));
     let SonarrApiKey = keys.Sonarr;
     console.log('[Sonarr] Clé api: ' + SonarrApiKey);
 
