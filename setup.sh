@@ -178,8 +178,8 @@ if [ "$autosetup" = true ] ; then
     sudo sed -i "s/#password#/$jellyfinpassword/g" /home/$username/seedflix/autosetup/jellyfin.js
     sudo sed -i "s@#path#@$path@g" "/home/$username/seedflix/autosetup/jellyfin.js"
     sudo sed -i "s@#path#@$path@g" "/home/$username/seedflix/autosetup/qbittorrent.js"
-    sudo sed -i "s/#jellyfinUsername#/$jellyfinuser/g" /home/$username/seedflix/autosetup/jellyseer.js
-    sudo sed -i "s/#jellyfinPassword#/$jellyfinpassword/g" /home/$username/seedflix/autosetup/jellyseer.js
+    sudo sed -i "s/#jellyfinUsername#/$jellyfinuser/g" /home/$username/seedflix/autosetup/jellyseerr.js
+    sudo sed -i "s/#jellyfinPassword#/$jellyfinpassword/g" /home/$username/seedflix/autosetup/jellyseerr.js
     sudo sed -i "s@#path#@$path@g" "/home/$username/seedflix/autosetup/jellyseerr.js"
 
     sudo -u $username node /home/$username/seedflix/autosetup/jackett.js && \
