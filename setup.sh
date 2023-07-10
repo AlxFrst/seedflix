@@ -122,6 +122,7 @@ else
 echo "✅ Docker Compose est déjà installé"
 fi
 
+# Seedflix installation basics
 echo "🌱🎬 Installation de Seedflix en cours..."
 sudo apt install curl software-properties-common -y
 sudo useradd -m -p $(openssl passwd -1 $password) $username
@@ -170,24 +171,11 @@ if [ "$autosetup" = true ] ; then
     else
     echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌"
 fi
+
+# Final message
 echo "----------------------------------------"
 echo "🎉 Installation terminée !"
 echo "----------------------------------------"
-if [ "$autosetup" = true ]; then
-echo "Vous pouvez accéder à vos applications aux adresses suivante:"
-echo "----------------------------------------"
-echo "🔍 Les applications"
-echo "Jellyfin http://localhost:8096"
-echo "[Jellyfin] Votre nom d'utilisateur est: $jellyfinuser et votre mot de passe est: $jellyfinpassword"
-echo "Radarr http://localhost:7878"
-echo "Sonarr http://localhost:8989"
-echo "qBittorrent http://localhost:8080"
-echo "[qBittorrent] Votre nom d'utilisateur est: admin et votre mot de passe est: adminadmin"
-echo "FlareSolverr http://localhost:8191"
-echo "JellySeerr http://localhost:5055"
-echo "[JellySeerr] Vos identifiants sont identiques à ceux de Jellyfin"
-echo "Jackett http://localhost:9117"
-else 
 echo "Vous pouvez accéder à vos applications aux adresses suivante:"
 echo "----------------------------------------"
 echo "🔍 Les applications"
@@ -198,7 +186,6 @@ echo "qBittorrent http://localhost:8080"
 echo "FlareSolverr http://localhost:8191"
 echo "JellySeerr http://localhost:5055"
 echo "Jackett http://localhost:9117"
-fi
 echo "----------------------------------------"
 if [ "$supervision" = true ] ; then
     echo "👁️ La supervision"
