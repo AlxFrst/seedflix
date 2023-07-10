@@ -165,31 +165,8 @@ fi
 # Services apps installation
 if [ "$autosetup" = true ] ; then
     echo "[AUTO-SETUP] Installation en cours 👀"
-    # Ask for jellyfin user and password
-    curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-    sudo apt update -y
-    sudo apt-get install -y nodejs
-    sudo apt-get install -y chromium-browser
-    sudo apt-get install -y libx11-xcb1 libxcomposite1 libasound2 libatk1.0-0 libatk-bridge2.0-0 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6
-    sudo -u $username npm install --prefix /home/$username/seedflix/autosetup
-    # keys.json need to be readeable by all js files
-    sudo chmod 777 /home/$username/seedflix/autosetup/keys.json
-    # SED FOR ALL FILES
-    # change #path# by path
-    sudo sed -i "s/#username#/$jellyfinuser/g" /home/$username/seedflix/autosetup/jellyfin.js
-    sudo sed -i "s/#password#/$jellyfinpassword/g" /home/$username/seedflix/autosetup/jellyfin.js
-    sudo sed -i "s@#path#@$path@g" "/home/$username/seedflix/autosetup/jellyfin.js"
-    sudo sed -i "s@#path#@$path@g" "/home/$username/seedflix/autosetup/qbittorrent.js"
-    sudo sed -i "s/#jellyfinUsername#/$jellyfinuser/g" /home/$username/seedflix/autosetup/jellyseerr.js
-    sudo sed -i "s/#jellyfinPassword#/$jellyfinpassword/g" /home/$username/seedflix/autosetup/jellyseerr.js
-    sudo sed -i "s@#path#@$path@g" "/home/$username/seedflix/autosetup/jellyseerr.js"
-
-    sudo -u $username node /home/$username/seedflix/autosetup/jackett.js && \
-    sudo -u $username node /home/$username/seedflix/autosetup/radarr.js && \
-    sudo -u $username node /home/$username/seedflix/autosetup/sonarr.js && \
-    sudo -u $username node /home/$username/seedflix/autosetup/qbittorrent.js && \
-    sudo -u $username node /home/$username/seedflix/autosetup/jellyfin.js && \
-    sudo -u $username node /home/$username/seedflix/autosetup/jellyseerr.js
+    # SED FOR JS FILES
+    # Exec JS files
     else
     echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌"
 fi

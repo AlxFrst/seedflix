@@ -17,6 +17,7 @@ git clone https://github.com/AlxFrst/seedflix.git && cd seedflix && chmod +x set
 - **qBittorrent** : Un client BitTorrent populaire pour le téléchargement de torrents.
 - **FlareSolverr** : Un outil pour résoudre les défis Cloudflare rencontrés lors du scraping de sites web.
 - **Jellyseerr** : Un service permettant de convertir des torrents en liens magnet.
+- **Prowlarr**: 
 
 ## Prérequis matériel ⚙️
 
