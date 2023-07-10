@@ -8,27 +8,16 @@ Seedflix est un référentiel Docker qui combine une seedbox et un mediacenter, 
 git clone https://github.com/AlxFrst/seedflix.git && cd seedflix && chmod +x setup.sh && ./setup.sh
 ```
 
-# TODO 📝
-<!-- checkbox with -->
-- [ ] Ajouter prowlarr et l'autosetup
-- [ ] Ajouter l'explication pour le tunnel cloudflare
-
-# test pour une branche en cours de dev
-```
-git clone -b prowlarr-add https://github.com/AlxFrst/seedflix.git && cd seedflix && chmod +x setup.sh && ./setup.sh
-```
-
 
 ## Fonctionnalités 🚀
 
 - **Jellyfin** : Un puissant serveur multimédia vous permettant de diffuser votre collection de médias sur différents appareils.
-- **Jackett** : Un agrégateur d'indexeurs de torrents, vous permettant de rechercher des torrents provenant de plusieurs sources.
 - **Sonarr** : Un gestionnaire intelligent de séries télévisées, vous permettant de télécharger et d'organiser automatiquement vos séries préférées.
 - **Radarr** : Un compagnon de Sonarr, conçu pour gérer et télécharger des films.
 - **qBittorrent** : Un client BitTorrent populaire pour le téléchargement de torrents.
 - **FlareSolverr** : Un outil pour résoudre les défis Cloudflare rencontrés lors du scraping de sites web.
 - **Jellyseerr** : Un service permettant de convertir des torrents en liens magnet.
-- **Prowlarr**: 
+- **Prowlarr**: Gestionnaire d'indexeurs/proxy pour *arr stack, compatible avec diverses apps PVR, Torrent Trackers, Usenet Indexers. Intègre Lidarr, Mylar3, Radarr, Readarr, Sonarr, Jellyfin.
 
 ## Prérequis matériel ⚙️
 
@@ -38,15 +27,10 @@ git clone -b prowlarr-add https://github.com/AlxFrst/seedflix.git && cd seedflix
 
 ## Conseils & Astuces 📝
 
-- Commencez par ajouter vos indexeurs dans Jackett.
-- Mettez en place flaresolverr pour résoudre les défis Cloudflare dans Jackett.
-- Ajoutez vos indexeurs dans Sonarr et Radarr et configurez vos profils de téléchargement.
-- Ajoutez qBittorrent dans Sonarr et Radarr
-- Assurez-vous que dans le "Répertoire de destination par défaut :" le chemin soit défini sur "/data/downloads".)
-- Dans les paramètres de Bittorrent, cochez la case "Lorsque le ratio est atteint" et mettez 0 à côté. Ensuite, sélectionnez "mettre en pause le torrent" pour vous assurer que les fichiers se suppriment une fois terminés et sont déplacés dans le bon dossier.
-- Ajouter un tunnel cloudflare pour accéder à vos services depuis l'extérieur pour Jellyfin et Jellyseerr. uniquement.
-- Rechercher un film ou une série dans Jellyseerr et visionner le directement dans Jellyfin quand il est disponible.
-- ENJOY ! 🎉
+- Exposez sur le web uniquement Jellyfin et Jellyseerr (via un tunnel Cloudflare par exemple) pour une meilleure sécurité.
+- Vous pouvez ajouter d'autres sources de torrents via Prowlarr qui se situe sur le port 9696. 
+- Ajoutez FlareSolverr comme proxy dans Prowlarr pour résoudre les défis Cloudflare.
+- Vous pouvez pousser d'avantages vos recherches de films en ajoutant des profiles dans Radarr et Sonarr. 
 
 ## Accès aux services 📺
 
@@ -57,6 +41,8 @@ git clone -b prowlarr-add https://github.com/AlxFrst/seedflix.git && cd seedflix
 - **qBittorrent** : http://localhost:8080
 - **FlareSolverr** : http://localhost:8191
 - **Jellyseerr** : http://localhost:5055
+- **Grafana** : http://localhost:3000 (si supervision activée)
+- **InfluxDB** : http://localhost:8086 (si supervision activée)
 
 ## Testé sur 🧪
 Ubuntu 20.04 LTS (Focal Fossa) amd64 ✅
