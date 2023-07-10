@@ -286,13 +286,48 @@ function delay(time) {
     await jellyseerr.goto('http://' + targetIP + ':' + jellyseerrPort + '/settings', { waitUntil: 'networkidle2' });
     jellyseerrApiKey = await jellyseerr.evaluate(() => document.querySelector('#apiKey').value);
     console.log('[Jellyseer] Clé api: ' + jellyseerrApiKey);
-    const jellyseerrAddRadarr = { "name": "Radarr", "hostname": "radarr", "port": 7878, "apiKey": radarrApiKey, "useSsl": false, "activeProfileId": 1, "activeProfileName": "Any", "activeDirectory": path + "/movies", "is4k": false, "minimumAvailability": "released", "tags": [], "isDefault": true, "syncEnabled": false, "preventSearch": false };
+    const jellyseerrAddRadarr = {
+        "name": "Radarr Seedflix",
+        "hostname": "radarr",
+        "port": 7878,
+        "apiKey": radarrApiKey,
+        "useSsl": false,
+        "baseUrl": "",
+        "activeProfileId": 1,
+        "activeProfileName": "Any",
+        "activeDirectory": path + "/movies",
+        "is4k": false,
+        "minimumAvailability": "released",
+        "tags": [],
+        "isDefault": true,
+        "syncEnabled": false,
+        "preventSearch": false
+    }
     await axios.post('http://' + targetIP + ':' + jellyseerrPort + '/api/v1/settings/sonarr', jellyseerrAddRadarr, { headers: { 'x-api-key': jellyseerrApiKey } });
-    const jellyseerrAddSonarr = { "name": "Sonarr", "hostname": "sonarr", "port": 8989, "apiKey": sonarrApiKey, "useSsl": false, "activeProfileId": 1, "activeLanguageProfileId": 2, "activeProfileName": "Any", "activeDirectory": path + "/tv", "tags": [], "animeTags": [], "is4k": false, "isDefault": true, "enableSeasonFolders": false, "syncEnabled": false, "preventSearch": false };
+    const jellyseerrAddSonarr = {
+        "name": "Sonarr Seedflix",
+        "hostname": "sonarr",
+        "port": 8989,
+        "apiKey": sonarrApiKey,
+        "useSsl": false,
+        "activeProfileId": 1,
+        "activeLanguageProfileId": 2,
+        "activeProfileName": "Any",
+        "activeDirectory": path + "/tv",
+        "tags": [],
+        "animeTags": [],
+        "is4k": false,
+        "isDefault": true,
+        "enableSeasonFolders": false,
+        "syncEnabled": false,
+        "preventSearch": false
+    }
     await axios.post('http://' + targetIP + ':' + jellyseerrPort + '/api/v1/settings/sonarr', jellyseerrAddSonarr, { headers: { 'x-api-key': jellyseerrApiKey } });
     await jellyseerr.close();
 
     await browser.close();
+
+
 
 
 })();
