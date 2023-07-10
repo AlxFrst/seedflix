@@ -109,6 +109,19 @@ services:
     ports:
       - "8191:8191"
     restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Paris
+    volumes:
+      - /home/media/prowlarr/config:/config
+      - ${PATH_MEDIA}:/data
+    ports:
+      - 9696:9696
+    restart: unless-stopped
 
 networks:
   internal:
