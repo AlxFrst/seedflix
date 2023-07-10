@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const axios = require('axios');
 
-let targetIP = '192.168.1.210';
+let targetIP = 'localhost';
 
 let radarrPort = '7878';
 let sonarrPort = '8989';
@@ -19,7 +19,7 @@ function delay(time) {
 
 (async () => {
 
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
 
     // PROWLARR
     let prowlarrUsername = 'admin'; // SED THIS BEFORE LAUNCHING
