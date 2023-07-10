@@ -18,8 +18,8 @@ services:
       - PGID=${PGID}
       - TZ=Europe/Paris
     volumes:
-      - /home/media/config:/config
-      - /home/media/cache:/cahe
+      - ${HOME}/config:/config
+      - ${HOME}/cache:/cahe
       - ${PATH_MEDIA}:/data 
   sonarr:
     image: linuxserver/sonarr:latest
@@ -34,7 +34,7 @@ services:
       - PGID=${PGID}
       - TZ=Europe/Paris
     volumes:
-      - /home/media/sonarr/config:/config
+      - ${HOME}/sonarr/config:/config
       - ${PATH_MEDIA}:/data
   radarr:
     image: linuxserver/radarr:latest
@@ -49,7 +49,7 @@ services:
       - PGID=${PGID}
       - TZ=Europe/Paris
     volumes:
-      - /home/media/radarr/config:/config
+      - ${HOME}/radarr/config:/config
       - ${PATH_MEDIA}:/data
   qbittorrent:
     image: ghcr.io/linuxserver/qbittorrent
@@ -80,7 +80,7 @@ services:
     ports:
       - 5055:5055
     volumes:
-      - /home/media/jellyseerr/config:/app/config
+      - ${HOME}/jellyseerr/config:/app/config
     restart: unless-stopped
   flaresolverr:
     # DockerHub mirror flaresolverr/flaresolverr:latest
@@ -102,7 +102,7 @@ services:
       - PGID=${PGID}
       - TZ=Europe/Paris
     volumes:
-      - /home/media/prowlarr/config:/config
+      - ${HOME}/prowlarr/config:/config
       - ${PATH_MEDIA}:/data
     ports:
       - 9696:9696
