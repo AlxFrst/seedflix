@@ -29,34 +29,6 @@ function delay(time) {
     keys.Jackett = jackettApiKey;
     fs.writeFileSync('./keys.json', JSON.stringify(keys));
 
-    await jackettPage.goto('http://192.168.1.210:9117/api/v2.0/indexers/thepiratebay/config', { waitUntil: 'networkidle0' });
-
-    const postData = {
-        id: 'sitelink',
-        type: 'inputstring',
-        name: 'Site Link',
-        value: 'https://thepiratebay.org/'
-    };
-
-    await jackettPage.evaluate((data) => {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = 'http://192.168.1.210:9117/api/v2.0/indexers/thepiratebay/config';
-
-        for (const key in data) {
-            if (data.hasOwnProperty(key)) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = data[key];
-                form.appendChild(input);
-            }
-        }
-
-        document.body.appendChild(form);
-        form.submit();
-    }, postData);
-
     await jackettPage.waitForNavigation();
 
     const response = await jackettPage.content();
