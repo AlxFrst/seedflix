@@ -189,17 +189,19 @@ echo "Vous pouvez accéder à vos applications aux adresses suivante:"
 echo "----------------------------------------"
 echo "🔍 Les applications"
 echo "Jellyfin http://localhost:8096"
+if [ "$autosetup" = true ]; then echo "Utilisateur: $jellyfinuser Mot de passe: $jellyfinpassword"; fi
 echo "Radarr http://localhost:7878"
 echo "Sonarr http://localhost:8989"
 echo "qBittorrent http://localhost:8080"
 echo "FlareSolverr http://localhost:8191"
 echo "JellySeerr http://localhost:5055"
+if [ "$autosetup" = true ]; then echo "Utilisateur: $jellyfinuser Mot de passe: $jellyfinpassword"; fi
 echo "Jackett http://localhost:9117"
 echo "----------------------------------------"
 if [ "$supervision" = true ] ; then
     echo "👁️ La supervision"
     echo "Grafana http://localhost:3000"
-    echo "Username: $grafana_influx_user Password: $grafana_influx_password"
+    echo "Utilisateur: $grafana_influx_user Mot de passe: $grafana_influx_password"
     echo "InfluxDB http://localhost:8086"
-    echo "Username: $grafana_influx_user Password: $grafana_influx_password"
+    echo "Utilisateur: $grafana_influx_user Mot de passe: $grafana_influx_password"
 fi
