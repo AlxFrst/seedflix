@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const axios = require('axios');
 
-let jackettUrl = 'http://192.168.1.210:9117';
+let jackettUrl = 'http://localhost:9117';
 
 function delay(time) {
     return new Promise(function (resolve) {
