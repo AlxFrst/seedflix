@@ -141,7 +141,7 @@ function delay(time) {
     // JELLYFIN
     const jellyfinPage = await browser.newPage();
     let jellyfinUsername = '#jellyuser#'; // SED THIS BEFORE LAUNCHING
-    let jellyfinPassword = '#jellypass'; // SED THIS BEFORE LAUNCHING
+    let jellyfinPassword = '#jellypass#'; // SED THIS BEFORE LAUNCHING
     await jellyfinPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
     await jellyfinPage.goto('http://' + targetIP + ':' + jellyfinPort, { waitUntil: 'networkidle2' });
     await jellyfinPage.waitForSelector('#selectLocalizationLanguage');
@@ -303,7 +303,7 @@ function delay(time) {
         "syncEnabled": false,
         "preventSearch": false
     }
-    await axios.post('http://' + targetIP + ':' + jellyseerrPort + '/api/v1/settings/sonarr', jellyseerrAddRadarr, { headers: { 'x-api-key': jellyseerrApiKey } });
+    await axios.post('http://' + targetIP + ':' + jellyseerrPort + '/api/v1/settings/radarr', jellyseerrAddRadarr, { headers: { 'x-api-key': jellyseerrApiKey } });
     const jellyseerrAddSonarr = {
         "name": "Sonarr Seedflix",
         "hostname": "sonarr",
