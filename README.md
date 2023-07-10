@@ -7,6 +7,8 @@ Seedflix est un référentiel Docker qui combine une seedbox et un mediacenter, 
 ```
 git clone https://github.com/AlxFrst/seedflix.git && cd seedflix && chmod +x setup.sh && ./setup.sh
 ```
+Répondez aux questions posées par le script et c'est parti ! 🚀
+En bonus si vous choisisez l'autosetup une fois terminé il ne vous reste plus qu'a vous rendre sur JellySeerr pour ajouter vos films et séries préférés et les visioner sur Jellyfin.
 
 
 ## Fonctionnalités 🚀
