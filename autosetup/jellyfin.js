@@ -16,12 +16,6 @@ function delay(time) {
     let jellyfinPassword = '#password#'; // SED THIS BEFORE RUNNING
     let path = '#path#'; // NEED TO SED THIS BEFORE RUNNING
 
-    // debug
-    // jellyfinUrl = 'http://192.168.1.xxxx:8096';
-    // jellyfinUsername = 'admin';
-    // jellyfinPassword = 'adminadmin';
-    // path = '/data';
-
     const jellyfinPage = await browser.newPage();
     await jellyfinPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
     await jellyfinPage.goto(jellyfinUrl, { waitUntil: 'networkidle2' });
