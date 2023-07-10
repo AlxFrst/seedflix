@@ -104,6 +104,8 @@ services:
     volumes:
       - ${HOME}/prowlarr/config:/config
       - ${PATH_MEDIA}:/data
+    networks:
+      - internal
     ports:
       - 9696:9696
     restart: unless-stopped
