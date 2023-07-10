@@ -8,6 +8,17 @@ Seedflix est un référentiel Docker qui combine une seedbox et un mediacenter, 
 git clone https://github.com/AlxFrst/seedflix.git && cd seedflix && chmod +x setup.sh && ./setup.sh
 ```
 
+# TODO 📝
+<!-- checkbox with -->
+- [ ] Ajouter prowlarr et l'autosetup
+- [ ] Ajouter l'explication pour le tunnel cloudflare
+
+# test pour une branche en cours de dev
+```
+git clone -b prowlarr-add https://github.com/AlxFrst/seedflix.git && cd seedflix && chmod +x setup.sh && ./setup.sh
+```
+
+
 ## Fonctionnalités 🚀
 
 - **Jellyfin** : Un puissant serveur multimédia vous permettant de diffuser votre collection de médias sur différents appareils.
