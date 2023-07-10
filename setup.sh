@@ -131,7 +131,7 @@ sudo mkdir -p $path/torrents $path/movies $path/tv $path/downloads
 sudo chown -R $username:$username $path/torrents $path/movies $path/tv $path/downloads
 echo "✅ Dossiers créés avec succès !"
 echo "💡 Clonage du dépôt Git de Seedflix dans le dossier de l'utilisateur."
-sudo -u $username git clone -b prowlarr-add https://github.com/AlxFrst/seedflix.git /home/$username/seedflix
+sudo -u $username git clone https://github.com/AlxFrst/seedflix.git /home/$username/seedflix
 sudo chown -R $username:$username /home/$username/seedflix
 echo "✅ Dépôt cloné avec succès !"
 echo "💡 Création du fichier .env de Seedflix."
