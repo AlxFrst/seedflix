@@ -165,6 +165,7 @@ fi
 
 # Services apps installation
 if [ "$autosetup" = true ] ; then
+    echo "[AUTO-SETUP] Installation en cours 👀"
     curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
     sudo apt update -y
     sudo apt-get install -y nodejs

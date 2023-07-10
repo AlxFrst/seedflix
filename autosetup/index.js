@@ -20,6 +20,8 @@ function delay(time) {
 
     const browser = await puppeteer.launch({ headless: true });
 
+    let path = '#path#'; // SED THIS BEFORE LAUNCHING
+
     // PROWLARR
     let prowlarrUsername = 'admin'; // SED THIS BEFORE LAUNCHING
     let prowlarrPassword = 'admin'; // SED THIS BEFORE LAUNCHING
@@ -137,10 +139,9 @@ function delay(time) {
     await qBittorrentPage.close();
 
     // JELLYFIN
+    const jellyfinPage = await browser.newPage();
     let jellyfinUsername = '#jellyuser#'; // SED THIS BEFORE LAUNCHING
     let jellyfinPassword = '#jellypass'; // SED THIS BEFORE LAUNCHING
-    let path = '#path#'; // SED THIS BEFORE LAUNCHING
-    const jellyfinPage = await browser.newPage();
     await jellyfinPage.setViewport({ width: 1920, height: 1080 }); // DEBUG
     await jellyfinPage.goto('http://' + targetIP + ':' + jellyfinPort, { waitUntil: 'networkidle2' });
     await jellyfinPage.waitForSelector('#selectLocalizationLanguage');
