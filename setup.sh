@@ -176,7 +176,7 @@ if [ "$autosetup" = true ] ; then
     sudo -u $username sed -i "s/#jellyuser#/$jellyfinuser/g" /home/$username/seedflix/autosetup/index.js
     sudo -u $username sed -i "s/#jellypass#/$jellyfinpassword/g" /home/$username/seedflix/autosetup/index.js
     sudo sed -i "s@#path#@$path@g" "/home/$username/seedflix/autosetup/index.js"
-    sudo -u media node /home/media/seedflix/autosetup/index.js
+    sudo -u $username node /home/$username/seedflix/autosetup/index.js
     else
     echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌"
 fi
