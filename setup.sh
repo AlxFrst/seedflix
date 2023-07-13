@@ -181,6 +181,7 @@ if [ "$autosetup" = true ] ; then
     echo "[AUTO-SETUP] Pas d'installation automatique des services Seedflix ❌"
 fi
 
+echo "-------------DEBUG-----------------"
 echo "Si l'autosetup a crash vous pouvez le relancer avec la commande suivante:"
 echo "sudo -u $username node /home/$username/seedflix/autosetup/index.js"
 
