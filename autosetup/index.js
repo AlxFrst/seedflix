@@ -51,6 +51,7 @@ function delay(time) {
     }
     await delay(5000);
     await prowlarrPage.goto('http://' + targetIP + ':' + prowlarrPort + '/settings/general', { waitUntil: 'networkidle2' });
+    await delay(5000);
     const prowlarrInputs = await prowlarrPage.$$('input');
     prowlarrApiKey = await (await prowlarrInputs[5].getProperty('value')).jsonValue();
     console.log('[Prowlarr] API Key: ' + prowlarrApiKey);
