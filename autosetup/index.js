@@ -238,7 +238,7 @@ function delay(time) {
     // QBITTORRENT
     let qbUsername = 'admin'; // SED THIS BEFORE LAUNCHING
     let qbPassword = 'adminadmin'; // SED THIS BEFORE LAUNCHING
-    let qbDownloadPath = path + '/downloads'; // SED THIS BEFORE LAUNCHING
+    let qbDownloadPath = '/data/downloads'; // SED THIS BEFORE LAUNCHING
     console.log('[qBittorrent] Lancement de la configuration');
     const qBittorrentPage = await browser.newPage();
     await qBittorrentPage.goto('http://' + targetIP + ':' + qbittorrentPort, { waitUntil: 'networkidle2' });
