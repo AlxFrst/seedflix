@@ -18,8 +18,8 @@ services:
       - PGID=${PGID}
       - TZ=Europe/Paris
     volumes:
-      - ${HOME}/config:/config
-      - ${HOME}/cache:/cahe
+      - ${HOME}/jellyfin/config:/config
+      - ${HOME}/jellyfin/cache:/cahe
       - ${PATH_MEDIA}:/data 
   sonarr:
     image: linuxserver/sonarr:latest
@@ -60,7 +60,7 @@ services:
       - TZ=Europe/Paris
       - WEBUI_PORT=8080
     volumes:
-      - /path/to/appdata/config:/config
+      - ${HOME}/qbittorrent/config:/config
       - ${PATH_MEDIA}:/data
     networks:
       - internal
