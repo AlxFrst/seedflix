@@ -195,7 +195,7 @@ function delay(time) {
             console.log('[Radarr] Custom Formats error');
         });
     // Sonarr Api Calls
-    const sonarrAddQbittorrent = { "name": "qbittorrent", "protocol": "torrent", "fields": [{ "name": "host", "value": "qbittorrent" }, { "name": "username", "value": "admin" }, { "name": "password", "value": "adminadmin" }], "implementationName": "QBitTorrent", "implementation": "QBitTorrent", "configContract": "QBitTorrentSettings", "enable": true };
+    const sonarrAddQbittorrent = { "name": "qbittorrent", "protocol": "torrent", "removeCompletedDownloads": true, "removeFailedDownloads": true, "fields": [{ "name": "host", "value": "qbittorrent" }, { "name": "username", "value": "admin" }, { "name": "password", "value": "adminadmin" }], "implementationName": "QBitTorrent", "implementation": "QBitTorrent", "configContract": "QBitTorrentSettings", "enable": true };
     await axios.post('http://' + targetIP + ':' + sonarrPort + '/api/v3/downloadclient', sonarrAddQbittorrent, { headers: sonarrHeader })
         .then(function (response) {
             console.log('[Sonarr] Qbittorrent added');
@@ -409,23 +409,7 @@ function delay(time) {
     await jellyseerr.goto('http://' + targetIP + ':' + jellyseerrPort + '/settings', { waitUntil: 'networkidle2' });
     jellyseerrApiKey = await jellyseerr.evaluate(() => document.querySelector('#apiKey').value);
     console.log('[Jellyseer] Clé api: ' + jellyseerrApiKey);
-    const jellyseerrAddRadarr = {
-        "name": "Radarr Seedflix",
-        "hostname": "radarr",
-        "port": 7878,
-        "apiKey": radarrApiKey,
-        "useSsl": false,
-        "baseUrl": "",
-        "activeProfileId": 1,
-        "activeProfileName": "Any",
-        "activeDirectory": path + "/movies",
-        "is4k": false,
-        "minimumAvailability": "released",
-        "tags": [],
-        "isDefault": true,
-        "syncEnabled": false,
-        "preventSearch": false
-    }
+    const jellyseerrAddRadarr = { name: "Radarr Seedflix", hostname: "radarr", port: 7878, apiKey: radarrApiKey, useSsl: !1, baseUrl: "", activeProfileId: 1, activeProfileName: "Any", activeDirectory: path + "/movies", is4k: !1, minimumAvailability: "released", tags: [], isDefault: !0, syncEnabled: !1, preventSearch: !1 };
     await axios.post('http://' + targetIP + ':' + jellyseerrPort + '/api/v1/settings/radarr', jellyseerrAddRadarr, { headers: { 'x-api-key': jellyseerrApiKey } })
         .then(function (response) {
             console.log('[Jellyseer] Radarr ajouté');
@@ -433,24 +417,7 @@ function delay(time) {
         .catch(function (error) {
             console.log('[Jellyseer] Erreur lors de l\'ajout de Radarr');
         });
-    const jellyseerrAddSonarr = {
-        "name": "Sonarr Seedflix",
-        "hostname": "sonarr",
-        "port": 8989,
-        "apiKey": sonarrApiKey,
-        "useSsl": false,
-        "activeProfileId": 1,
-        "activeLanguageProfileId": 2,
-        "activeProfileName": "Any",
-        "activeDirectory": path + "/tv",
-        "tags": [],
-        "animeTags": [],
-        "is4k": false,
-        "isDefault": true,
-        "enableSeasonFolders": false,
-        "syncEnabled": false,
-        "preventSearch": false
-    }
+    const jellyseerrAddSonarr = { name: "Sonarr Seedflix", hostname: "sonarr", port: 8989, apiKey: sonarrApiKey, useSsl: !1, activeProfileId: 1, activeLanguageProfileId: 2, activeProfileName: "Any", activeDirectory: path + "/tv", tags: [], animeTags: [], is4k: !1, isDefault: !0, enableSeasonFolders: !1, syncEnabled: !1, preventSearch: !1 };
     await axios.post('http://' + targetIP + ':' + jellyseerrPort + '/api/v1/settings/sonarr', jellyseerrAddSonarr, { headers: { 'x-api-key': jellyseerrApiKey } })
         .then(function (response) {
             console.log('[Jellyseer] Sonarr ajouté');
