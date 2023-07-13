@@ -22,6 +22,8 @@ function delay(time) {
 
     let path = '#path#'; // SED THIS BEFORE LAUNCHING
 
+    console.log('[AUTOSETUP] Récupération des clés API');
+
     // PROWLARR
     let prowlarrUsername = 'admin'; // SED THIS BEFORE LAUNCHING
     let prowlarrPassword = 'admin'; // SED THIS BEFORE LAUNCHING
@@ -47,6 +49,7 @@ function delay(time) {
         await prowlarrPage.type('body > div > div > div.panel > div.panel-body > form > div:nth-child(2) > input', prowlarrPassword);
         await prowlarrPage.click('body > div > div > div.panel > div.panel-body > form > button');
     }
+    await delay(5000);
     await prowlarrPage.goto('http://' + targetIP + ':' + prowlarrPort + '/settings/general', { waitUntil: 'networkidle2' });
     const prowlarrInputs = await prowlarrPage.$$('input');
     prowlarrApiKey = await (await prowlarrInputs[5].getProperty('value')).jsonValue();
@@ -71,6 +74,7 @@ function delay(time) {
     console.log('[Sonarr] API Key: ' + sonarrApiKey);
     await sonarrPage.close();
 
+    console.log('[AUTOSETUP] Configuration des applications');
     // Api Calls
     const prowlarrHeader = { 'X-Api-Key': prowlarrApiKey };
     const radarrHeader = { 'X-Api-Key': radarrApiKey };
@@ -165,7 +169,7 @@ function delay(time) {
         .catch(function (error) {
             console.log('[Radarr] Profile UHD error');
         });
-    const radarrRootFolder = { "path": path + '/movies' };
+    const radarrRootFolder = { "path": '/data/movies' };
     await axios.post('http://' + targetIP + ':' + radarrPort + '/api/v3/rootFolder', radarrRootFolder, { headers: radarrHeader })
         .then(function (response) {
             console.log('[Radarr] Root folder added');
@@ -205,7 +209,7 @@ function delay(time) {
         .catch(function (error) {
             console.log('[Sonarr] Custom Profile error');
         });
-    const sonarrRootFolder = { "path": path + "/tv" };
+    const sonarrRootFolder = { "path": "/data/tv" };
     await axios.post('http://' + targetIP + ':' + sonarrPort + '/api/v3/rootfolder', sonarrRootFolder, { headers: sonarrHeader })
         .then(function (response) {
             console.log('[Sonarr] Root Folder added');
@@ -300,7 +304,7 @@ function delay(time) {
     await jellyfinPage.keyboard.press('A');
     await jellyfinPage.keyboard.up('Control');
     await jellyfinPage.keyboard.press('Backspace');
-    await jellyfinPage.type('#txtDirectoryPickerPath', path + '/movies');
+    await jellyfinPage.type('#txtDirectoryPickerPath', '/data/movies');
     await jellyfinPage.waitForSelector('body > div:nth-child(15) > div > div.formDialogContent.scrollY > div > form > div.formDialogFooter > button');
     await jellyfinPage.click('body > div:nth-child(15) > div > div.formDialogContent.scrollY > div > form > div.formDialogFooter > button');
     await delay(6000);
@@ -330,7 +334,7 @@ function delay(time) {
     await jellyfinPage.keyboard.press('A');
     await jellyfinPage.keyboard.up('Control');
     await jellyfinPage.keyboard.press('Backspace');
-    await jellyfinPage.type('#txtDirectoryPickerPath', path + '/tv');
+    await jellyfinPage.type('#txtDirectoryPickerPath', '/data/tv');
     await jellyfinPage.waitForSelector('body > div:nth-child(15) > div > div.formDialogContent.scrollY > div > form > div.formDialogFooter > button');
     await jellyfinPage.click('body > div:nth-child(15) > div > div.formDialogContent.scrollY > div > form > div.formDialogFooter > button');
     await delay(6000);
