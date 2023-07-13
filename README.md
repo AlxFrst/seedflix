@@ -37,7 +37,7 @@ En bonus si vous choisisez l'autosetup une fois terminé il ne vous reste plus q
 ## Accès aux services 📺
 
 - **Jellyfin** : http://localhost:8096
-- **Jackett** : http://localhost:9117
+- **Prowlarr** : http://localhost:9696
 - **Sonarr** : http://localhost:8989
 - **Radarr** : http://localhost:7878
 - **qBittorrent** : http://localhost:8080

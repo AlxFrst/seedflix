@@ -188,20 +188,33 @@ echo "----------------------------------------"
 echo "Vous pouvez accéder à vos applications aux adresses suivante:"
 echo "----------------------------------------"
 echo "🔍 Les applications"
+echo "----------------------------------------"
 echo "Jellyfin http://localhost:8096"
 if [ "$autosetup" = true ]; then echo "Utilisateur: $jellyfinuser Mot de passe: $jellyfinpassword"; fi
+echo "----------------------------------------"
 echo "Radarr http://localhost:7878"
+if [ "$autosetup" = true ]; then echo "Pas d'authentification activée"; fi
+echo "----------------------------------------"
 echo "Sonarr http://localhost:8989"
+if [ "$autosetup" = true ]; then echo "Pas d'authentification activée"; fi
+echo "----------------------------------------"
 echo "qBittorrent http://localhost:8080"
+if [ "$autosetup" = true ]; then echo "Utilisateur: admin Mot de passe: adminadmin"; fi
+echo "----------------------------------------"
 echo "FlareSolverr http://localhost:8191"
 echo "JellySeerr http://localhost:5055"
 if [ "$autosetup" = true ]; then echo "Utilisateur: $jellyfinuser Mot de passe: $jellyfinpassword"; fi
-echo "Jackett http://localhost:9117"
+echo "----------------------------------------"
+echo "Prowlarr http://localhost:9696"
+if [ "$autosetup" = true ]; then echo "Utilisateur: admin Mot de passe: adminadmin"; fi
 echo "----------------------------------------"
 if [ "$supervision" = true ] ; then
     echo "👁️ La supervision"
+    echo "----------------------------------------"
     echo "Grafana http://localhost:3000"
     echo "Utilisateur: $grafana_influx_user Mot de passe: $grafana_influx_password"
+    echo "----------------------------------------"
     echo "InfluxDB http://localhost:8086"
     echo "Utilisateur: $grafana_influx_user Mot de passe: $grafana_influx_password"
+    echo "----------------------------------------"
 fi
